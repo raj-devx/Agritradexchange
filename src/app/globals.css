@@ -1,0 +1,239 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #123e2d;
+  --color-brand-600: #16533b;
+  --color-brand-500: #1d6949;
+  --color-leaf: #378451;
+  --color-leaf-600: #2f7347;
+  --color-leaf-400: #56a46e;
+  --color-gold: #e9c65a;
+  --color-gold-600: #d8b23e;
+  --color-gold-400: #f0d47a;
+  --color-cream: #f4f6f0;
+  --color-cream-dark: #e8ece2;
+  --color-ink: #2b2f33;
+  --color-terracotta: #c4653a;
+  --color-terracotta-100: #fdf0ea;
+  --color-spice: #9b6b30;
+  --color-spice-100: #fdf5e8;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #2b2f33;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.015em;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-ink);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Motion ----------------------------------------------------------------- */
+@keyframes atx-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes atx-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes atx-grow-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes atx-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+@keyframes atx-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+@keyframes atx-pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+@keyframes atx-slide-right {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.animate-fade-up {
+  animation: atx-fade-up 0.55s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+.animate-fade-in {
+  animation: atx-fade-in 0.7s ease both;
+}
+.animate-grow-x {
+  transform-origin: left;
+  animation: atx-grow-x 1s cubic-bezier(0.22, 0.61, 0.36, 1) 0.25s both;
+}
+.animate-float {
+  animation: atx-float 3s ease-in-out infinite;
+}
+.animate-shimmer {
+  background-size: 200% 100%;
+  animation: atx-shimmer 2.5s linear infinite;
+}
+.animate-pulse-soft {
+  animation: atx-pulse-soft 2s ease-in-out infinite;
+}
+
+/* Hover lift for interactive cards. */
+.lift {
+  transition:
+    transform 0.25s cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 0.25s ease;
+}
+.lift:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 12px 24px -8px rgba(18, 62, 45, 0.12),
+    0 4px 8px -2px rgba(18, 62, 45, 0.06);
+}
+
+/* Scroll-reveal base (toggled by the Reveal component). */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Logo arrow swap — arrows slide in opposite directions on hover/click. */
+.lm-top,
+.lm-bot {
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.group:hover .lm-top {
+  transform: translateX(3.5px);
+}
+.group:hover .lm-bot {
+  transform: translateX(-3.5px);
+}
+
+/* Nav link hover — animated gold underline. */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--color-gold);
+  transition: all 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transform: translateX(-50%);
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+.nav-link.active::after {
+  background: var(--color-gold);
+}
+
+/* Gradient text utility. */
+.text-gradient-brand {
+  background: linear-gradient(135deg, var(--color-brand) 0%, var(--color-leaf) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Section divider — decorative gold line. */
+.section-divider {
+  width: 48px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--color-gold), var(--color-gold-400));
+}
+
+/* Stagger children animation delays for lists/grids. */
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 80ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 160ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 240ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 320ms; }
+.stagger-children > *:nth-child(6) { animation-delay: 400ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

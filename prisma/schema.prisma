@@ -1,0 +1,126 @@
+// AgriTradeXchange — Version 1 (Managed Procurement Platform)
+// Dev uses SQLite for zero-setup local runs. For production switch the
+// datasource provider to "postgresql" and point DATABASE_URL at Postgres;
+// the models below are written to port cleanly (no SQLite-only features).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/// A farmer who registered available produce. Registration is NOT a purchase
+/// guarantee — status tracks where the lot is in the procurement pipeline.
+model FarmerRegistration {
+  id                String   @id @default(cuid())
+  registrationNo    String   @unique
+  fullName          String
+  mobile            String
+  state             String
+  district          String
+  village           String
+  cropCategory      String
+  cropName          String
+  expectedQuantity  Float
+  unit              String // kg | quintal | tonne
+  harvestDate       String?
+  approxLocation    String
+  preferredLanguage String // Gujarati | Hindi | English
+  consent           Boolean  @default(false)
+  status            String   @default("Registration submitted")
+  createdAt         DateTime @default(now())
+  matches           SupplyMatch[]
+  inspection        Inspection?
+}
+
+/// A field agent's on-site quality inspection of a farmer lot. One current
+/// inspection per lot (re-inspection upserts). Agents record quality only —
+/// they do NOT set a buying price (that's an authorised admin step).
+model Inspection {
+  id          String             @id @default(cuid())
+  farmerId    String             @unique
+  farmer      FarmerRegistration @relation(fields: [farmerId], references: [id], onDelete: Cascade)
+  inspectedBy String
+  sampleNo    String
+  moisture    String?
+  grade       String
+  assessedQty Float
+  unit        String // kg | quintal | tonne
+  notes       String?
+  visitDate   String
+  farmerAck   Boolean            @default(false)
+  createdAt   DateTime           @default(now())
+}
+
+/// A commercial buyer (factory, mill, trader, exporter...).
+model BuyerRegistration {
+  id                    String   @id @default(cuid())
+  buyerNo               String   @unique
+  companyName           String
+  contactPerson         String
+  mobile                String
+  email                 String
+  companyType           String
+  gstin                 String?
+  address               String
+  procurementCategories String // comma-separated category keys
+  website               String?
+  status                String   @default("Pending verification")
+  createdAt             DateTime @default(now())
+}
+
+/// A buyer's purchasing requirement (the demand side — core to the model:
+/// demand is secured before supply is committed).
+model BuyerRequirement {
+  id               String   @id @default(cuid())
+  requirementNo    String   @unique
+  companyName      String
+  contactPerson    String
+  mobile           String
+  email            String
+  commodity        String
+  requiredQuantity Float
+  unit             String // kg | quintal | tonne
+  grade            String
+  moistureSpec     String?
+  deliveryLocation String
+  deliveryDeadline String?
+  packaging        String // Loose | Bags | Other
+  targetPrice      String?
+  sampleRequired   Boolean  @default(false)
+  additionalSpecs  String?
+  status           String   @default("Submitted")
+  createdAt        DateTime @default(now())
+  matches          SupplyMatch[]
+}
+
+/// A manual allocation pairing a buyer requirement with a farmer supply lot.
+/// The ops team builds these in the admin matching view (no automated matching
+/// in V1). Quantity is stored in the farmer lot's unit.
+model SupplyMatch {
+  id            String             @id @default(cuid())
+  requirementId String
+  requirement   BuyerRequirement   @relation(fields: [requirementId], references: [id], onDelete: Cascade)
+  farmerId      String
+  farmer        FarmerRegistration @relation(fields: [farmerId], references: [id], onDelete: Cascade)
+  allocatedQty  Float
+  unit          String // kg | quintal | tonne
+  status        String             @default("Proposed") // Proposed | Confirmed
+  createdAt     DateTime           @default(now())
+
+  @@unique([requirementId, farmerId])
+}
+
+/// A general enquiry from the public contact form.
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  audience  String? // Farmer | Buyer | Other
+  message   String
+  createdAt DateTime @default(now())
+}
