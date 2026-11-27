@@ -24,6 +24,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { Reveal } from "@/components/reveal";
 import { CATEGORIES } from "@/lib/commodities";
 import { CountUp } from "@/components/count-up";
+import { MandiTicker } from "@/components/mandi-ticker";
 import { useSiteT } from "@/lib/use-t";
 import type { SiteDict } from "@/lib/i18n";
 
@@ -303,6 +304,9 @@ export function HomeContent() {
         </Container>
       </section>
 
+      {/* ── Mandi price ticker ── */}
+      <MandiTicker />
+
       {/* ── Two sides, one network ── */}
       <section className="bg-cream py-16">
         <Container>
@@ -507,6 +511,28 @@ export function HomeContent() {
                 </div>
               </Link>
             ))}
+          </Reveal>
+        </Container>
+      </section>
+
+      {/* ── Browse requirements banner ── */}
+      <section className="py-6">
+        <Container>
+          <Reveal>
+            <Link
+              href="/requirements"
+              className="group flex items-center justify-between rounded-2xl border border-leaf/20 bg-leaf/5 px-6 py-5 transition-colors hover:border-leaf/40 hover:bg-leaf/10"
+            >
+              <div>
+                <p className="font-display text-lg font-bold text-brand">
+                  {t.req_browseReqs}
+                </p>
+                <p className="mt-0.5 text-sm text-ink/60">
+                  {t.req_subtitle}
+                </p>
+              </div>
+              <ArrowRight className="size-5 shrink-0 text-leaf transition-transform group-hover:translate-x-1" />
+            </Link>
           </Reveal>
         </Container>
       </section>

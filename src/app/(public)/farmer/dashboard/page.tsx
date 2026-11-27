@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { Sprout, Package, Calendar, MapPin, LogOut } from "lucide-react";
+import { Sprout, Package, Calendar, MapPin, LogOut, FileText } from "lucide-react";
 import { getSession } from "@/lib/user-auth";
 import { prisma } from "@/lib/prisma";
 import { Container } from "@/components/container";
@@ -89,6 +89,16 @@ export default async function FarmerDashboardPage() {
                     {r.inspection.moisture && ` &middot; Moisture: ${r.inspection.moisture}`}
                   </div>
                 )}
+                <div className="mt-3 border-t border-black/5 pt-3">
+                  <a
+                    href={`/api/receipt/farmer/${r.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs font-medium text-leaf hover:underline"
+                  >
+                    <FileText className="size-3.5" /> Download Receipt
+                  </a>
+                </div>
               </div>
             ))}
           </div>

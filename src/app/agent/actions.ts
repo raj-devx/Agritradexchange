@@ -56,6 +56,10 @@ export async function recordInspection(formData: FormData) {
     const arr = JSON.parse(imagesRaw);
     if (Array.isArray(arr) && arr.length > 0) images = JSON.stringify(arr);
   } catch { /* ignore */ }
+  const latStr = String(formData.get("latitude") ?? "");
+  const lngStr = String(formData.get("longitude") ?? "");
+  const latitude = latStr ? parseFloat(latStr) : null;
+  const longitude = lngStr ? parseFloat(lngStr) : null;
 
   if (
     !farmerId ||
@@ -79,6 +83,8 @@ export async function recordInspection(formData: FormData) {
     visitDate: visitDate || new Date().toISOString().slice(0, 10),
     farmerAck,
     images,
+    latitude: latitude && !isNaN(latitude) ? latitude : null,
+    longitude: longitude && !isNaN(longitude) ? longitude : null,
   };
 
   await prisma.inspection.upsert({

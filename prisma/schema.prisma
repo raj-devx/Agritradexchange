@@ -53,6 +53,8 @@ model Inspection {
   visitDate   String
   farmerAck   Boolean            @default(false)
   images      String?  // JSON array of image URLs
+  latitude    Float?
+  longitude   Float?
   createdAt   DateTime           @default(now())
 }
 

@@ -7,6 +7,7 @@ import { recordInspection } from "@/app/agent/actions";
 import { QUALITY_GRADES } from "@/lib/status";
 import { UNITS } from "@/lib/validation";
 import { ImageUpload } from "@/components/image-upload";
+import { GpsCapture } from "@/components/gps-capture";
 
 export const instant = false;
 
@@ -176,6 +177,16 @@ export default async function InspectPage({
           <ImageUpload
             name="images"
             existingImages={prev?.images ? JSON.parse(prev.images) : []}
+          />
+        </div>
+
+        <div>
+          <p className="mb-1.5 text-sm font-medium text-ink">Inspection location (GPS)</p>
+          <GpsCapture
+            latName="latitude"
+            lngName="longitude"
+            defaultLat={prev?.latitude}
+            defaultLng={prev?.longitude}
           />
         </div>
 

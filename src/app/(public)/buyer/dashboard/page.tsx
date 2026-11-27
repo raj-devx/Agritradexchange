@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { Building2, Package, MapPin, Calendar, LogOut } from "lucide-react";
+import { Building2, Package, MapPin, Calendar, LogOut, FileText } from "lucide-react";
 import { getSession } from "@/lib/user-auth";
 import { prisma } from "@/lib/prisma";
 import { Container } from "@/components/container";
@@ -59,8 +59,16 @@ export default async function BuyerDashboardPage() {
                 {registration.status}
               </span>
             </div>
-            <div className="mt-2 text-sm text-ink/60">
-              {registration.companyType} &middot; {registration.buyerNo}
+            <div className="mt-2 flex items-center justify-between text-sm text-ink/60">
+              <span>{registration.companyType} &middot; {registration.buyerNo}</span>
+              <a
+                href={`/api/receipt/buyer/${registration.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs font-medium text-leaf hover:underline"
+              >
+                <FileText className="size-3.5" /> Receipt
+              </a>
             </div>
           </div>
         )}
@@ -109,6 +117,16 @@ export default async function BuyerDashboardPage() {
                         {r.deliveryDeadline}
                       </div>
                     )}
+                  </div>
+                  <div className="mt-3 border-t border-black/5 pt-3">
+                    <a
+                      href={`/api/receipt/requirement/${r.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-medium text-leaf hover:underline"
+                    >
+                      <FileText className="size-3.5" /> Download Receipt
+                    </a>
                   </div>
                 </div>
               ))}
