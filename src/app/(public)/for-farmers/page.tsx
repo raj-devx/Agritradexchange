@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { PageHeader } from "@/components/page-header";
 import { ForFarmersContent } from "@/components/for-farmers-content";
 
 export const metadata: Metadata = {
@@ -9,14 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function ForFarmersPage() {
-  return (
-    <>
-      <PageHeader
-        eyebrow="For Farmers"
-        title="Sell your produce with less hassle and more clarity"
-        subtitle="Register the crop you have available. Our field team inspects quality, shares a transparent offer, and connects you to real buyer demand."
-      />
-      <ForFarmersContent />
-    </>
-  );
+  return <ForFarmersContent />;
 }

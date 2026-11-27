@@ -8,12 +8,24 @@ import { BRAND, NAV_LINKS } from "@/lib/brand";
 import { Container } from "@/components/container";
 import { Logo } from "@/components/logo";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { useSiteT } from "@/lib/use-t";
 import { cn } from "@/lib/cn";
+
+const NAV_KEYS = [
+  "nav_home",
+  "nav_forFarmers",
+  "nav_forBuyers",
+  "nav_commodities",
+  "nav_howItWorks",
+  "nav_about",
+  "nav_contact",
+] as const;
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const t = useSiteT();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -25,14 +37,19 @@ export function SiteHeader() {
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
+  const navItems = NAV_LINKS.map((link, i) => ({
+    ...link,
+    label: t[NAV_KEYS[i]],
+  }));
+
   return (
     <header className="relative z-50">
       {/* Utility strip */}
       <div className="hidden bg-brand text-cream md:block">
         <Container className="flex h-9 items-center justify-between text-xs">
           <p className="text-cream/70">
-            Connecting Indian farms with domestic &amp; global buyers —{" "}
-            <span className="text-cream/90">quality-based, transparent trade.</span>
+            {t.nav_strip}{" "}
+            <span className="text-cream/90">{t.nav_stripBold}</span>
           </p>
           <div className="flex items-center gap-5 text-cream/80">
             <a
@@ -65,7 +82,7 @@ export function SiteHeader() {
           <Logo onClick={() => setOpen(false)} />
 
           <nav className="hidden h-16 items-center gap-0 xl:flex">
-            {NAV_LINKS.map((link) => (
+            {navItems.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -87,13 +104,13 @@ export function SiteHeader() {
               href="/buyer/login"
               className="rounded-lg px-3 py-2 text-sm font-medium text-ink/65 transition-colors hover:bg-cream hover:text-brand"
             >
-              Sign in
+              {t.nav_signIn}
             </Link>
             <Link
               href="/register/farmer"
               className="inline-flex items-center gap-1.5 rounded-lg bg-gold px-5 py-2.5 text-sm font-bold text-ink shadow-sm transition-all hover:bg-gold-600 hover:shadow-md active:scale-[0.98]"
             >
-              List produce <ArrowUpRight className="size-4" />
+              {t.nav_listProduce} <ArrowUpRight className="size-4" />
             </Link>
           </div>
 
@@ -111,7 +128,7 @@ export function SiteHeader() {
         {open && (
           <div className="animate-fade-in border-t border-black/5 bg-white xl:hidden">
             <Container className="flex flex-col py-3">
-              {NAV_LINKS.map((link) => (
+              {navItems.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -135,14 +152,14 @@ export function SiteHeader() {
                   onClick={() => setOpen(false)}
                   className="rounded-lg border border-brand/20 px-4 py-2.5 text-center text-sm font-semibold text-brand transition-colors hover:bg-cream"
                 >
-                  Sign in
+                  {t.nav_signIn}
                 </Link>
                 <Link
                   href="/register/farmer"
                   onClick={() => setOpen(false)}
                   className="rounded-lg bg-gold px-4 py-2.5 text-center text-sm font-bold text-ink transition-colors hover:bg-gold-600"
                 >
-                  List produce
+                  {t.nav_listProduce}
                 </Link>
               </div>
             </Container>

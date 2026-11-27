@@ -1,24 +1,28 @@
+"use client";
+
 import Link from "next/link";
 import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
 import { BRAND, NAV_LINKS } from "@/lib/brand";
 import { Container } from "@/components/container";
 import { Logo } from "@/components/logo";
-
-const farmerLinks = [
-  { href: "/for-farmers", label: "Why sell with us" },
-  { href: "/register/farmer", label: "Register your produce" },
-  { href: "/how-it-works", label: "How it works" },
-];
-
-const buyerLinks = [
-  { href: "/for-buyers", label: "Source commodities" },
-  { href: "/register/buyer", label: "Register as a buyer" },
-  { href: "/buyers/post-requirement", label: "Post a requirement" },
-];
+import { useSiteT } from "@/lib/use-t";
 
 const COPYRIGHT_YEAR = 2026;
 
+const NAV_KEYS = ["nav_home","nav_forFarmers","nav_forBuyers","nav_commodities","nav_howItWorks","nav_about","nav_contact"] as const;
+
 export function SiteFooter() {
+  const t = useSiteT();
+  const farmerLinks = [
+    { href: "/for-farmers", label: t.footer_whySell },
+    { href: "/register/farmer", label: t.footer_regProduce },
+    { href: "/how-it-works", label: t.footer_howItWorks },
+  ];
+  const buyerLinks = [
+    { href: "/for-buyers", label: t.footer_sourceCommodities },
+    { href: "/register/buyer", label: t.footer_regBuyer },
+    { href: "/buyers/post-requirement", label: t.footer_postReq },
+  ];
   const year = COPYRIGHT_YEAR;
   return (
     <footer className="relative mt-20 overflow-hidden border-t border-white/10 bg-brand text-cream">
@@ -35,14 +39,13 @@ export function SiteFooter() {
         <div>
           <Logo tone="light" />
           <p className="mt-4 max-w-xs text-sm text-cream/70">
-            A farmer-first agricultural procurement and trade network connecting
-            producers with domestic buyers and global importers.
+            {t.footer_desc}
           </p>
         </div>
 
         <div>
           <h4 className="text-sm font-semibold uppercase tracking-wider text-gold">
-            For Farmers
+            {t.footer_forFarmers}
           </h4>
           <ul className="mt-4 space-y-2 text-sm text-cream/80">
             {farmerLinks.map((l) => (
@@ -60,7 +63,7 @@ export function SiteFooter() {
 
         <div>
           <h4 className="text-sm font-semibold uppercase tracking-wider text-gold">
-            For Buyers
+            {t.footer_forBuyers}
           </h4>
           <ul className="mt-4 space-y-2 text-sm text-cream/80">
             {buyerLinks.map((l) => (
@@ -78,7 +81,7 @@ export function SiteFooter() {
 
         <div>
           <h4 className="text-sm font-semibold uppercase tracking-wider text-gold">
-            Contact
+            {t.footer_contact}
           </h4>
           <ul className="mt-4 space-y-3 text-sm text-cream/80">
             <li className="flex items-center gap-2">
@@ -97,17 +100,16 @@ export function SiteFooter() {
       <div className="relative border-t border-white/10">
         <Container className="flex flex-col items-center justify-between gap-3 py-5 text-xs text-cream/60 sm:flex-row">
           <p>
-            © {year} {BRAND.name}. Concept-stage platform — information shown
-            is illustrative and not an offer to buy or sell.
+            © {year} {BRAND.name}. {t.footer_copyright}
           </p>
           <nav className="flex flex-wrap gap-4">
-            {NAV_LINKS.slice(1).map((l) => (
+            {NAV_LINKS.slice(1).map((l, i) => (
               <Link
                 key={l.href}
                 href={l.href}
                 className="transition-colors hover:text-white"
               >
-                {l.label}
+                {t[NAV_KEYS[i + 1]]}
               </Link>
             ))}
           </nav>
