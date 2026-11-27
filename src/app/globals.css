@@ -189,16 +189,134 @@ html {
 .reveal.is-visible > *:nth-child(8) { transition-delay: 630ms; }
 .reveal.is-visible > *:nth-child(n + 9) { transition-delay: 700ms; }
 
-/* Logo arrow swap — arrows slide in opposite directions on hover/click. */
-.lm-top,
-.lm-bot {
-  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+/* Logo ------------------------------------------------------------------ */
+.lg {
+  -webkit-tap-highlight-color: transparent;
 }
-.group:hover .lm-top {
-  transform: translateX(3.5px);
+.lg-badge {
+  overflow: visible;
+  filter: drop-shadow(0 4px 10px rgba(18, 62, 45, 0.28));
+  transition:
+    transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1),
+    filter 0.4s ease;
 }
-.group:hover .lm-bot {
-  transform: translateX(-3.5px);
+.lg-in,
+.lg-sway,
+.lg-leaf {
+  transform-box: view-box;
+  transform-origin: 20px 23px;
+}
+.lg-leaf,
+.lg-head-l,
+.lg-head-r {
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.lg-head-l,
+.lg-head-r {
+  transform-box: view-box;
+}
+.lg-head-l { transform-origin: 10.5px 29.5px; }
+.lg-head-r { transform-origin: 29.5px 29.5px; }
+
+@keyframes lg-grow {
+  from { transform: scale(0) rotate(-25deg); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+@keyframes lg-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes lg-sway-l {
+  0%, 100% { transform: rotate(0); }
+  50% { transform: rotate(-5deg); }
+}
+@keyframes lg-sway-r {
+  0%, 100% { transform: rotate(0); }
+  50% { transform: rotate(6deg); }
+}
+.lg-stem,
+.lg-arc-line {
+  stroke-dasharray: 1;
+  animation: lg-draw 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) 0.1s both;
+}
+.lg-arc-line { animation-delay: 0.45s; }
+.lg-in-l { animation: lg-grow 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both; }
+.lg-in-r { animation: lg-grow 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both; }
+.lg-sway-l { animation: lg-sway-l 6s ease-in-out 1.6s infinite; }
+.lg-sway-r { animation: lg-sway-r 7s ease-in-out 1.8s infinite; }
+@keyframes lg-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.lg-head-l, .lg-head-r {
+  animation: lg-fade 0.5s ease 0.95s both;
+}
+
+.lg-sheen {
+  transform: translateX(0) skewX(-18deg);
+  transition: transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* hover + touch (:active) */
+.lg:hover .lg-badge,
+.lg:active .lg-badge {
+  transform: rotate(-7deg) scale(1.08);
+  filter: drop-shadow(0 8px 16px rgba(18, 62, 45, 0.4));
+}
+.lg:active .lg-badge {
+  transform: rotate(-7deg) scale(0.93);
+}
+.lg:hover .lg-leaf-l,
+.lg:active .lg-leaf-l {
+  transform: rotate(-14deg) scale(1.12);
+}
+.lg:hover .lg-leaf-r,
+.lg:active .lg-leaf-r {
+  transform: rotate(14deg) scale(1.15);
+}
+.lg:hover .lg-head-l,
+.lg:active .lg-head-l {
+  transform: translate(-1.4px, 1px) scale(1.1);
+}
+.lg:hover .lg-head-r,
+.lg:active .lg-head-r {
+  transform: translate(1.4px, 1px) scale(1.1);
+}
+.lg:hover .lg-sheen,
+.lg:active .lg-sheen {
+  transform: translateX(78px) skewX(-18deg);
+}
+
+.lg-word {
+  position: relative;
+}
+.lg-word::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  height: 2px;
+  width: 0;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--color-gold), transparent);
+  transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lg:hover .lg-word::after,
+.lg:active .lg-word::after {
+  width: 100%;
+}
+.lg-x {
+  transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.lg:hover .lg-x,
+.lg:active .lg-x {
+  transform: rotate(180deg) scale(1.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lg-in, .lg-sway, .lg-stem, .lg-arc-line, .lg-head-l, .lg-head-r {
+    animation: none !important;
+  }
 }
 
 /* Nav link hover — animated gold underline. */
