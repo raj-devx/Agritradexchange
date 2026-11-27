@@ -7,6 +7,7 @@ import { Menu, X, Phone, ArrowUpRight } from "lucide-react";
 import { BRAND, NAV_LINKS } from "@/lib/brand";
 import { Container } from "@/components/container";
 import { Logo } from "@/components/logo";
+import { LanguageSwitcher } from "@/components/language-switcher";
 import { cn } from "@/lib/cn";
 
 export function SiteHeader() {
@@ -80,7 +81,8 @@ export function SiteHeader() {
             ))}
           </nav>
 
-          <div className="hidden items-center gap-2 xl:flex">
+          <div className="hidden items-center gap-2.5 xl:flex">
+            <LanguageSwitcher />
             <Link
               href="/buyer/login"
               className="rounded-lg px-3 py-2 text-sm font-medium text-ink/65 transition-colors hover:bg-cream hover:text-brand"
@@ -124,7 +126,10 @@ export function SiteHeader() {
                   {link.label}
                 </Link>
               ))}
-              <div className="mt-3 grid grid-cols-2 gap-2 border-t border-black/5 pt-3">
+              <div className="mt-3 flex items-center justify-center border-t border-black/5 pt-3 pb-2">
+                <LanguageSwitcher />
+              </div>
+              <div className="grid grid-cols-2 gap-2">
                 <Link
                   href="/buyer/login"
                   onClick={() => setOpen(false)}

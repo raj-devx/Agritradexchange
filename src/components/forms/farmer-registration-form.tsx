@@ -12,7 +12,8 @@ import {
 } from "@/lib/validation";
 import { CATEGORIES } from "@/lib/commodities";
 import { INDIAN_STATES } from "@/lib/geo";
-import { FARMER_STATUS_PIPELINE } from "@/lib/status";
+import { useLang } from "@/components/language-provider";
+import { FARMER_T } from "@/lib/i18n";
 import {
   Field,
   Input,
@@ -23,6 +24,9 @@ import {
 } from "./fields";
 
 export function FarmerRegistrationForm() {
+  const { lang } = useLang();
+  const t = FARMER_T[lang];
+
   const {
     register,
     handleSubmit,
@@ -36,7 +40,9 @@ export function FarmerRegistrationForm() {
       consent: false,
     },
   });
-  const [result, setResult] = useState<{ registrationNo: string } | null>(null);
+  const [result, setResult] = useState<{ registrationNo: string } | null>(
+    null,
+  );
   const [serverError, setServerError] = useState<string>();
 
   async function onSubmit(values: FarmerValues) {
@@ -49,33 +55,29 @@ export function FarmerRegistrationForm() {
       });
       const data = await res.json();
       if (!res.ok || !data.ok) {
-        setServerError(data.error ?? "Something went wrong. Please try again.");
+        setServerError(data.error ?? t.f_errGeneric);
         return;
       }
       setResult({ registrationNo: data.registrationNo });
       reset();
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch {
-      setServerError("Network error. Please check your connection and retry.");
+      setServerError(t.f_errNetwork);
     }
   }
 
   if (result) {
     return (
-      <SuccessPanel title="Produce registered successfully" reference={result.registrationNo}>
-        <p>
-          Our field agent will contact you to schedule an inspection. Registration
-          does not guarantee a purchase — you will see a clear, quality-based offer
-          and can accept or reject it before any sale.
-        </p>
+      <SuccessPanel title={t.f_successTitle} reference={result.registrationNo}>
+        <p>{t.f_successBody}</p>
         <p className="mt-3 text-xs text-ink/50">
-          Status: <strong>{FARMER_STATUS_PIPELINE[0]}</strong>
+          {t.f_statusLabel}: <strong>{t.pipeline[0]}</strong>
         </p>
         <button
           onClick={() => setResult(null)}
           className="mt-5 text-sm font-semibold text-leaf hover:underline"
         >
-          Register another crop
+          {t.f_registerAnother}
         </button>
       </SuccessPanel>
     );
@@ -86,21 +88,25 @@ export function FarmerRegistrationForm() {
       <FormError message={serverError} />
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="Farmer full name" required error={errors.fullName?.message}>
-          <Input {...register("fullName")} placeholder="e.g. Ramesh Patel" />
+        <Field label={t.f_fullName} required error={errors.fullName?.message}>
+          <Input {...register("fullName")} placeholder={t.f_fullNamePh} />
         </Field>
         <Field
-          label="Mobile number"
+          label={t.f_mobile}
           required
           error={errors.mobile?.message}
-          hint="OTP verification will be added in a later version."
+          hint={t.f_mobileHint}
         >
-          <Input {...register("mobile")} inputMode="numeric" placeholder="10-digit number" />
+          <Input
+            {...register("mobile")}
+            inputMode="numeric"
+            placeholder={t.f_mobilePh}
+          />
         </Field>
-        <Field label="State" required error={errors.state?.message}>
+        <Field label={t.f_state} required error={errors.state?.message}>
           <Select {...register("state")} defaultValue="">
             <option value="" disabled>
-              Select state
+              {t.f_stateSelect}
             </option>
             {INDIAN_STATES.map((s) => (
               <option key={s} value={s}>
@@ -109,16 +115,20 @@ export function FarmerRegistrationForm() {
             ))}
           </Select>
         </Field>
-        <Field label="District" required error={errors.district?.message}>
-          <Input {...register("district")} placeholder="e.g. Rajkot" />
+        <Field label={t.f_district} required error={errors.district?.message}>
+          <Input {...register("district")} placeholder={t.f_districtPh} />
         </Field>
-        <Field label="Village" required error={errors.village?.message}>
-          <Input {...register("village")} placeholder="Village name" />
+        <Field label={t.f_village} required error={errors.village?.message}>
+          <Input {...register("village")} placeholder={t.f_villagePh} />
         </Field>
-        <Field label="Crop category" required error={errors.cropCategory?.message}>
+        <Field
+          label={t.f_category}
+          required
+          error={errors.cropCategory?.message}
+        >
           <Select {...register("cropCategory")} defaultValue="">
             <option value="" disabled>
-              Select a category
+              {t.f_categorySelect}
             </option>
             {CATEGORIES.map((c) => (
               <option key={c.key} value={c.key}>
@@ -127,11 +137,15 @@ export function FarmerRegistrationForm() {
             ))}
           </Select>
         </Field>
-        <Field label="Crop name" required error={errors.cropName?.message}>
-          <Input {...register("cropName")} placeholder="e.g. Groundnut" />
+        <Field label={t.f_crop} required error={errors.cropName?.message}>
+          <Input {...register("cropName")} placeholder={t.f_cropPh} />
         </Field>
         <div className="grid grid-cols-2 gap-3">
-          <Field label="Expected quantity" required error={errors.expectedQuantity?.message}>
+          <Field
+            label={t.f_qty}
+            required
+            error={errors.expectedQuantity?.message}
+          >
             <Input
               type="number"
               step="any"
@@ -139,7 +153,7 @@ export function FarmerRegistrationForm() {
               placeholder="0"
             />
           </Field>
-          <Field label="Unit" required error={errors.unit?.message}>
+          <Field label={t.f_unit} required error={errors.unit?.message}>
             <Select {...register("unit")}>
               {UNITS.map((u) => (
                 <option key={u} value={u}>
@@ -150,20 +164,27 @@ export function FarmerRegistrationForm() {
           </Field>
         </div>
         <Field
-          label="Expected harvest date"
+          label={t.f_harvest}
           error={errors.harvestDate?.message}
-          hint="Optional — where applicable."
+          hint={t.f_harvestHint}
         >
           <Input type="date" {...register("harvestDate")} />
         </Field>
         <Field
-          label="Approximate crop location"
+          label={t.f_location}
           required
           error={errors.approxLocation?.message}
         >
-          <Input {...register("approxLocation")} placeholder="Nearest landmark / taluka" />
+          <Input
+            {...register("approxLocation")}
+            placeholder={t.f_locationPh}
+          />
         </Field>
-        <Field label="Preferred language" required error={errors.preferredLanguage?.message}>
+        <Field
+          label={t.f_lang}
+          required
+          error={errors.preferredLanguage?.message}
+        >
           <Select {...register("preferredLanguage")}>
             {LANGUAGES.map((l) => (
               <option key={l} value={l}>
@@ -180,17 +201,13 @@ export function FarmerRegistrationForm() {
           {...register("consent")}
           className="mt-0.5 size-4 accent-brand"
         />
-        <span>
-          I consent to AgriTradeXchange collecting and using my personal and
-          agricultural information to provide this service. My contact and farm
-          details will not be made publicly searchable.
-        </span>
+        <span>{t.f_consent}</span>
       </label>
       {errors.consent && (
         <p className="-mt-3 text-xs text-red-600">{errors.consent.message}</p>
       )}
 
-      <SubmitButton pending={isSubmitting}>Register my produce</SubmitButton>
+      <SubmitButton pending={isSubmitting}>{t.f_submit}</SubmitButton>
     </form>
   );
 }
