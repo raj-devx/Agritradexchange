@@ -49,7 +49,7 @@ export function GpsCapture({
   }
 
   return (
-    <div className="rounded-lg bg-white p-3 ring-1 ring-black/5">
+    <div className="rounded-2xl bg-white p-4 shadow-[var(--shadow-soft)] ring-1 ring-black/5">
       <input type="hidden" name={latName} value={lat ?? ""} />
       <input type="hidden" name={lngName} value={lng ?? ""} />
 
@@ -57,7 +57,7 @@ export function GpsCapture({
         <div className="flex items-center gap-2 text-sm">
           {loading ? (
             <>
-              <Loader2 className="size-4 animate-spin text-leaf" />
+              <span className="live-dot flex size-6 items-center justify-center rounded-full bg-leaf/10"><Loader2 className="size-4 animate-spin text-leaf" /></span>
               <span className="text-ink/60">Getting GPS location…</span>
             </>
           ) : lat && lng ? (
@@ -78,14 +78,14 @@ export function GpsCapture({
           type="button"
           onClick={captureLocation}
           disabled={loading}
-          className="rounded-md bg-leaf/10 px-2.5 py-1 text-xs font-medium text-leaf transition-colors hover:bg-leaf/20 disabled:opacity-50"
+          className="rounded-lg bg-leaf/10 px-3 py-1.5 text-xs font-semibold text-leaf transition-all hover:-translate-y-0.5 hover:bg-leaf/20 active:scale-95 disabled:opacity-50"
         >
           {lat ? "Recapture" : "Capture GPS"}
         </button>
       </div>
 
       {error && (
-        <p className="mt-2 flex items-center gap-1.5 text-xs text-red-600">
+        <p className="animate-fade-up mt-2 flex items-center gap-1.5 text-xs text-red-600">
           <AlertCircle className="size-3.5" /> {error}
         </p>
       )}

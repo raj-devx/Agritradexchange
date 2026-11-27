@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { Sprout } from "lucide-react";
 import { getSession } from "@/lib/user-auth";
 import { Container } from "@/components/container";
+import { Aurora } from "@/components/aurora";
 import { OtpLoginForm } from "@/components/otp-login-form";
 
 export const metadata: Metadata = { title: "Farmer Login" };
@@ -13,14 +14,15 @@ export default async function FarmerLoginPage() {
   if (session) redirect("/farmer/dashboard");
 
   return (
-    <section className="flex min-h-[70vh] items-center justify-center py-16">
-      <Container className="max-w-sm">
-        <div className="rounded-2xl border border-black/10 bg-white p-8 shadow-sm">
-          <div className="flex items-center gap-2">
-            <span className="flex size-9 items-center justify-center rounded-lg bg-leaf text-white">
+    <section className="grain relative flex min-h-[78vh] items-center justify-center overflow-hidden bg-brand py-16">
+      <Aurora />
+      <Container className="relative z-[1] max-w-sm">
+        <div className="gborder animate-fade-up rounded-3xl bg-white p-8 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.5)] ring-1 ring-white/40">
+          <div className="flex items-center gap-3">
+            <span className="live-dot flex size-11 items-center justify-center rounded-2xl bg-gradient-to-br from-leaf to-brand-600 text-white shadow-md">
               <Sprout className="size-5" />
             </span>
-            <span className="font-display text-lg font-extrabold text-brand">
+            <span className="font-display text-xl font-extrabold text-brand">
               Farmer Login
             </span>
           </div>

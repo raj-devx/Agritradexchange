@@ -5,13 +5,16 @@ type Variant = "primary" | "gold" | "outline" | "ghost";
 type Size = "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60";
+  "btn-shine inline-flex items-center justify-center gap-2 rounded-xl font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-brand text-white hover:bg-brand-600",
-  gold: "bg-gold text-ink hover:bg-gold-600",
-  outline: "border border-brand/25 text-brand hover:bg-cream",
-  ghost: "text-brand hover:bg-cream",
+  primary:
+    "bg-gradient-to-b from-brand-500 to-brand text-white shadow-[0_6px_20px_-6px_rgba(18,62,45,0.55),inset_0_1px_0_rgba(255,255,255,0.15)] hover:shadow-[0_12px_28px_-8px_rgba(18,62,45,0.6),inset_0_1px_0_rgba(255,255,255,0.2)]",
+  gold:
+    "bg-gradient-to-b from-gold-400 to-gold text-ink shadow-[0_6px_20px_-6px_rgba(233,198,90,0.7),inset_0_1px_0_rgba(255,255,255,0.5)] hover:shadow-[0_14px_30px_-8px_rgba(233,198,90,0.8),inset_0_1px_0_rgba(255,255,255,0.6)]",
+  outline:
+    "border border-brand/25 text-brand backdrop-blur-sm hover:border-brand/50 hover:bg-brand/5",
+  ghost: "text-brand hover:bg-brand/5",
 };
 
 const sizes: Record<Size, string> = {

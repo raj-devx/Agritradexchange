@@ -3,6 +3,8 @@
 import { ArrowRight, Package, MapPin, Clock, FlaskConical, Layers } from "lucide-react";
 import { Container } from "@/components/container";
 import { Reveal } from "@/components/reveal";
+import { Aurora } from "@/components/aurora";
+import { SpotlightCard } from "@/components/spotlight-card";
 import { ButtonLink } from "@/components/ui/button";
 import { useSiteT } from "@/lib/use-t";
 
@@ -44,41 +46,34 @@ export function RequirementsContent({ requirements }: { requirements: Req[] }) {
   return (
     <>
       {/* Page header */}
-      <section className="relative overflow-hidden border-b border-black/5 bg-brand text-cream">
+      <section className="grain relative overflow-hidden bg-brand text-cream">
+        <Aurora />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-15"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 80% 20%, var(--color-gold) 0%, transparent 50%), radial-gradient(circle at 20% 80%, var(--color-leaf) 0%, transparent 50%)",
-          }}
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent"
         />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent"
-        />
-        <Container className="relative py-14 sm:py-20">
-          <p className="mb-3 inline-flex animate-fade-up items-center gap-2 text-sm font-semibold uppercase tracking-wider text-gold">
-            <span className="h-px w-5 bg-gold/60" />
+        <Container className="relative z-[1] py-16 sm:py-24">
+          <p className="mb-4 inline-flex animate-fade-up items-center gap-2 rounded-full border border-gold/25 bg-gold/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-gold backdrop-blur">
+            <span className="live-dot size-1.5 rounded-full bg-gold" />
             {t.req_eyebrow}
           </p>
           <h1
-            className="max-w-3xl animate-fade-up text-3xl font-extrabold text-white sm:text-4xl md:text-5xl"
-            style={{ animationDelay: "60ms" }}
+            className="max-w-3xl animate-fade-up text-4xl text-white sm:text-5xl md:text-6xl"
+            style={{ animationDelay: "80ms" }}
           >
             {t.req_title}
           </h1>
           <p
-            className="mt-4 max-w-2xl animate-fade-up text-lg text-cream/75"
-            style={{ animationDelay: "120ms" }}
+            className="mt-5 max-w-2xl animate-fade-up text-lg leading-relaxed text-cream/75"
+            style={{ animationDelay: "160ms" }}
           >
             {t.req_subtitle}
           </p>
-          <div className="mt-6 animate-fade-up" style={{ animationDelay: "180ms" }}>
+          <div className="mt-7 animate-fade-up" style={{ animationDelay: "240ms" }}>
             <span className="text-sm text-cream/60">{t.req_buyerCta}</span>{" "}
             <a
               href="/buyers/post-requirement"
-              className="inline-flex items-center gap-1 text-sm font-semibold text-gold hover:underline"
+              className="link-underline inline-flex items-center gap-1 pb-0.5 text-sm font-semibold text-gold"
             >
               {t.req_postReq} <ArrowRight className="size-3.5" />
             </a>
@@ -87,10 +82,10 @@ export function RequirementsContent({ requirements }: { requirements: Req[] }) {
       </section>
 
       {/* Requirement cards */}
-      <section className="py-16">
+      <section className="py-20">
         <Container>
           {requirements.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-black/15 bg-cream/50 p-14 text-center">
+            <div className="rounded-3xl border border-dashed border-black/15 bg-gradient-to-br from-cream to-white p-14 text-center">
               <Package className="mx-auto size-12 text-brand/30" />
               <h2 className="mt-4 font-display text-xl font-bold text-ink/70">{t.req_noReqs}</h2>
               <p className="mt-2 text-sm text-ink/50">{t.req_noReqsSub}</p>
@@ -98,17 +93,19 @@ export function RequirementsContent({ requirements }: { requirements: Req[] }) {
           ) : (
             <Reveal className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {requirements.map((r) => (
-                <div
+                <SpotlightCard
                   key={r.id}
-                  className="group rounded-xl border border-black/10 bg-white p-5 shadow-sm transition-all hover:border-brand/20 hover:shadow-md"
+                  spot="rgba(55,132,81,0.12)"
+                  className="group gborder rounded-3xl border border-black/5 bg-white p-6 shadow-[var(--shadow-soft)] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[var(--shadow-lift)]"
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <h3 className="font-display text-lg font-bold text-brand">
+                    <h3 className="font-display text-xl font-bold text-brand">
                       {r.commodity}
                     </h3>
                     <span
-                      className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${STATUS_COLORS[r.status] ?? "bg-gray-100 text-gray-700"}`}
+                      className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${STATUS_COLORS[r.status] ?? "bg-gray-100 text-gray-700"}`}
                     >
+                      <span className="live-dot size-1.5 rounded-full bg-current" />
                       {r.status}
                     </span>
                   </div>
@@ -143,7 +140,7 @@ export function RequirementsContent({ requirements }: { requirements: Req[] }) {
                       </span>
                     </div>
                   )}
-                </div>
+                </SpotlightCard>
               ))}
             </Reveal>
           )}
@@ -154,13 +151,13 @@ export function RequirementsContent({ requirements }: { requirements: Req[] }) {
       <section className="pb-16">
         <Container>
           <Reveal>
-            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-leaf via-leaf to-leaf-400 p-8 text-center text-white">
+            <div className="grain relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-brand via-brand-500 to-leaf p-10 text-center text-white shadow-[0_40px_80px_-30px_rgba(18,62,45,0.6)] sm:p-14">
               <div
                 aria-hidden
                 className="pointer-events-none absolute -right-10 -top-10 size-40 rounded-full bg-white/10 blur-2xl"
               />
-              <div className="relative">
-                <h2 className="text-xl font-bold">{t.req_farmerCtaTitle}</h2>
+              <div className="relative z-[1]">
+                <h2 className="text-2xl text-white sm:text-4xl">{t.req_farmerCtaTitle}</h2>
                 <p className="mx-auto mt-2 max-w-xl text-sm text-white/80">
                   {t.req_farmerCtaSub}
                 </p>

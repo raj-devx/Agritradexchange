@@ -2,6 +2,8 @@
 
 import { Target, Eye, Sparkles } from "lucide-react";
 import { Container } from "@/components/container";
+import { Aurora } from "@/components/aurora";
+import { SpotlightCard } from "@/components/spotlight-card";
 import { Reveal } from "@/components/reveal";
 import { BRAND } from "@/lib/brand";
 import { useSiteT } from "@/lib/use-t";
@@ -20,33 +22,26 @@ export function AboutContent() {
   return (
     <>
       {/* Page header */}
-      <section className="relative overflow-hidden border-b border-black/5 bg-brand text-cream">
+      <section className="grain relative overflow-hidden bg-brand text-cream">
+        <Aurora />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-15"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 80% 20%, var(--color-gold) 0%, transparent 50%), radial-gradient(circle at 20% 80%, var(--color-leaf) 0%, transparent 50%)",
-          }}
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent"
         />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent"
-        />
-        <Container className="relative py-14 sm:py-20">
-          <p className="mb-3 inline-flex animate-fade-up items-center gap-2 text-sm font-semibold uppercase tracking-wider text-gold">
-            <span className="h-px w-5 bg-gold/60" />
+        <Container className="relative z-[1] py-16 sm:py-24">
+          <p className="mb-4 inline-flex animate-fade-up items-center gap-2 rounded-full border border-gold/25 bg-gold/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-gold backdrop-blur">
+            <span className="live-dot size-1.5 rounded-full bg-gold" />
             {t.about_eyebrow}
           </p>
           <h1
-            className="max-w-3xl animate-fade-up text-3xl font-extrabold text-white sm:text-4xl md:text-5xl"
-            style={{ animationDelay: "60ms" }}
+            className="max-w-3xl animate-fade-up text-4xl text-white sm:text-5xl md:text-6xl"
+            style={{ animationDelay: "80ms" }}
           >
             {t.about_title}
           </h1>
           <p
-            className="mt-4 max-w-2xl animate-fade-up text-lg text-cream/75"
-            style={{ animationDelay: "120ms" }}
+            className="mt-5 max-w-2xl animate-fade-up text-lg leading-relaxed text-cream/75"
+            style={{ animationDelay: "160ms" }}
           >
             {t.about_subtitle}
           </p>
@@ -54,89 +49,83 @@ export function AboutContent() {
       </section>
 
       {/* Mission / Vision */}
-      <section className="py-16">
+      <section className="py-20">
         <Container>
           <Reveal className="grid gap-6 lg:grid-cols-3">
-            <div className="group rounded-2xl border border-black/5 bg-white p-7 shadow-sm transition-all hover:shadow-lg">
-              <span className="flex size-12 items-center justify-center rounded-xl bg-leaf/10 text-leaf transition-transform duration-300 group-hover:scale-110">
+            <SpotlightCard spot="rgba(55,132,81,0.14)" className="group gborder rounded-3xl border border-black/5 bg-white p-8 shadow-[var(--shadow-soft)] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[var(--shadow-lift)]">
+              <span className="flex size-14 items-center justify-center rounded-2xl bg-gradient-to-br from-leaf/20 to-leaf/5 text-leaf ring-1 ring-leaf/15 transition-all duration-500 group-hover:-rotate-6 group-hover:scale-110">
                 <Target className="size-6" />
               </span>
-              <h2 className="mt-4 font-display text-lg font-bold text-brand">
+              <h2 className="mt-5 font-display text-xl font-bold text-brand">
                 {t.about_mission}
               </h2>
-              <p className="mt-3 text-sm text-ink/70">{t.about_missionText}</p>
-            </div>
-            <div className="group rounded-2xl border-2 border-leaf/20 bg-gradient-to-br from-cream to-white p-7 shadow-sm transition-all hover:shadow-lg lg:col-span-2">
-              <span className="flex size-12 items-center justify-center rounded-xl bg-brand/10 text-brand transition-transform duration-300 group-hover:scale-110">
+              <p className="mt-3 text-sm leading-relaxed text-ink/70">{t.about_missionText}</p>
+            </SpotlightCard>
+            <SpotlightCard spot="rgba(233,198,90,0.2)" className="group gborder rounded-3xl bg-gradient-to-br from-cream to-white p-8 shadow-[var(--shadow-soft)] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[var(--shadow-lift)] lg:col-span-2">
+              <span className="flex size-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand/20 to-brand/5 text-brand ring-1 ring-brand/15 transition-all duration-500 group-hover:rotate-6 group-hover:scale-110">
                 <Eye className="size-6" />
               </span>
-              <h2 className="mt-4 font-display text-lg font-bold text-brand">
+              <h2 className="mt-5 font-display text-xl font-bold text-brand">
                 {t.about_vision}
               </h2>
-              <p className="mt-3 text-ink/80">{BRAND.vision}</p>
-            </div>
+              <p className="mt-3 leading-relaxed text-ink/80">{BRAND.vision}</p>
+            </SpotlightCard>
           </Reveal>
         </Container>
       </section>
 
       {/* Phased approach */}
-      <section className="relative overflow-hidden bg-brand py-16 text-cream">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-10"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 30% 50%, var(--color-leaf) 0%, transparent 50%), radial-gradient(circle at 80% 50%, var(--color-gold) 0%, transparent 50%)",
-          }}
-        />
-        <Container className="relative">
-          <div className="mb-4 h-[3px] w-12 rounded bg-gold" />
-          <h2 className="text-2xl font-bold text-white">
+      <section className="grain relative overflow-hidden bg-brand py-24 text-cream">
+        <Aurora />
+        <Container className="relative z-[1]">
+          <div className="section-divider mb-4" />
+          <h2 className="text-3xl text-white sm:text-4xl">
             {t.about_phasedTitle}
           </h2>
           <p className="mt-2 max-w-2xl text-cream/70">
             {t.about_phasedSub}
           </p>
-          <Reveal className="mt-8 grid gap-4 md:grid-cols-5">
+          <div className="relative mt-12">
+            <div aria-hidden className="absolute left-[8%] right-[8%] top-[1.6rem] hidden h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent md:block" />
+          <Reveal className="relative grid gap-4 md:grid-cols-5">
             {phases.map((p) => (
-              <div
+              <SpotlightCard
                 key={p.tag}
-                className={`group rounded-2xl p-5 transition-all ${
-                  p.now
-                    ? "bg-gold/20 ring-2 ring-gold/30 backdrop-blur-sm"
-                    : "bg-white/10 backdrop-blur-sm hover:bg-white/15"
+                className={`glass group rounded-3xl p-5 transition-all duration-500 hover:-translate-y-1.5 ${
+                  p.now ? "!bg-gold/20 ring-2 ring-gold/40" : "hover:bg-white/15"
                 }`}
               >
                 <span className="font-display text-sm font-bold text-gold">
                   {p.tag}
                 </span>
                 {p.now && (
-                  <span className="ml-2 rounded-full bg-gold/20 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-gold">
+                  <span className="live-dot ml-2 rounded-full bg-gold/20 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-gold">
                     {t.about_now}
                   </span>
                 )}
                 <h3 className="mt-2 font-display text-sm font-bold text-white">
                   {p.title}
                 </h3>
-                <p className="mt-1.5 text-xs text-cream/70">{p.text}</p>
-              </div>
+                <p className="mt-1.5 text-xs leading-relaxed text-cream/70">{p.text}</p>
+              </SpotlightCard>
             ))}
           </Reveal>
+          </div>
         </Container>
       </section>
 
       {/* Differentiators */}
-      <section className="py-16">
+      <section className="py-24">
         <Container className="max-w-3xl">
           <Reveal>
             <div className="flex items-center gap-3">
-              <Sparkles className="size-6 text-gold" />
-              <h2 className="text-2xl font-bold text-brand">
+              <span className="flex size-12 items-center justify-center rounded-2xl bg-gold/15 ring-1 ring-gold/30"><Sparkles className="size-6 text-gold-600" /></span>
+              <h2 className="text-3xl text-brand sm:text-4xl">
                 {t.about_diffTitle}
               </h2>
             </div>
-            <p className="mt-4 text-ink/70">{t.about_diffText}</p>
-            <p className="mt-4 rounded-xl bg-cream px-5 py-4 text-sm text-ink/50">
+            <p className="mt-5 text-lg leading-relaxed text-ink/70">{t.about_diffText}</p>
+            <p className="mt-6 rounded-2xl border border-gold/25 bg-gradient-to-r from-gold/10 to-cream px-6 py-4 text-sm text-ink/60">
               {t.about_diffDisclaimer}
             </p>
           </Reveal>

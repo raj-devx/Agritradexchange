@@ -67,7 +67,7 @@ export function BuyerRegistrationForm() {
         </p>
         <button
           onClick={() => setResult(null)}
-          className="mt-5 text-sm font-semibold text-leaf hover:underline"
+          className="link-underline mt-6 pb-0.5 text-sm font-semibold text-leaf"
         >
           Register another company
         </button>
@@ -137,13 +137,13 @@ export function BuyerRegistrationForm() {
           {CATEGORIES.map((c) => (
             <label
               key={c.key}
-              className="flex items-center gap-2 rounded-lg border border-black/10 px-3 py-2 text-sm"
+              className="flex items-center gap-2 cursor-pointer rounded-xl border border-black/10 bg-white px-3 py-2.5 text-sm transition-all hover:-translate-y-0.5 hover:border-leaf/40 hover:shadow-sm"
             >
               <input
                 type="checkbox"
                 value={c.key}
                 {...register("procurementCategories")}
-                className="size-4 accent-brand"
+                className="size-4 accent-leaf"
               />
               {c.label}
             </label>

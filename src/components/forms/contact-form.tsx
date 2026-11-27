@@ -50,7 +50,7 @@ export function ContactForm() {
         <p>Thank you for reaching out. Our team will get back to you shortly.</p>
         <button
           onClick={() => setDone(false)}
-          className="mt-5 text-sm font-semibold text-leaf hover:underline"
+          className="link-underline mt-6 pb-0.5 text-sm font-semibold text-leaf"
         >
           Send another message
         </button>

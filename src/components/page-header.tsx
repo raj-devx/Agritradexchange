@@ -1,4 +1,5 @@
 import { Container } from "@/components/container";
+import { Aurora } from "@/components/aurora";
 
 export function PageHeader({
   eyebrow,
@@ -10,36 +11,29 @@ export function PageHeader({
   subtitle?: string;
 }) {
   return (
-    <section className="relative overflow-hidden border-b border-black/5 bg-brand text-cream">
+    <section className="grain relative overflow-hidden bg-brand text-cream">
+      <Aurora />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-15"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 80% 20%, var(--color-gold) 0%, transparent 50%), radial-gradient(circle at 20% 80%, var(--color-leaf) 0%, transparent 50%)",
-        }}
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent"
       />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent"
-      />
-      <Container className="relative py-14 sm:py-20">
+      <Container className="relative z-[1] py-16 sm:py-24">
         {eyebrow && (
-          <p className="mb-3 inline-flex animate-fade-up items-center gap-2 text-sm font-semibold uppercase tracking-wider text-gold">
-            <span className="h-px w-5 bg-gold/60" />
+          <p className="mb-4 inline-flex animate-fade-up items-center gap-2 rounded-full border border-gold/25 bg-gold/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-gold backdrop-blur">
+            <span className="live-dot size-1.5 rounded-full bg-gold" />
             {eyebrow}
           </p>
         )}
         <h1
-          className="max-w-3xl animate-fade-up text-3xl font-extrabold text-white sm:text-4xl md:text-5xl"
-          style={{ animationDelay: "60ms" }}
+          className="max-w-3xl animate-fade-up text-4xl text-white sm:text-5xl md:text-6xl"
+          style={{ animationDelay: "80ms" }}
         >
           {title}
         </h1>
         {subtitle && (
           <p
-            className="mt-4 max-w-2xl animate-fade-up text-lg text-cream/75"
-            style={{ animationDelay: "120ms" }}
+            className="mt-5 max-w-2xl animate-fade-up text-lg leading-relaxed text-cream/75"
+            style={{ animationDelay: "160ms" }}
           >
             {subtitle}
           </p>

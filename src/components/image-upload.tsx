@@ -44,7 +44,7 @@ export function ImageUpload({
       {images.length > 0 && (
         <div className="mb-3 flex flex-wrap gap-2">
           {images.map((src, i) => (
-            <div key={i} className="group relative size-20 overflow-hidden rounded-lg border border-black/10">
+            <div key={i} className="group relative size-20 overflow-hidden rounded-xl border border-black/10 shadow-sm transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-md">
               <img src={src} alt={`Upload ${i + 1}`} className="size-full object-cover" />
               <button
                 type="button"
@@ -63,7 +63,7 @@ export function ImageUpload({
           type="button"
           onClick={() => fileRef.current?.click()}
           disabled={uploading}
-          className="flex items-center gap-2 rounded-lg border border-dashed border-black/20 px-4 py-2.5 text-sm text-ink/60 transition-colors hover:border-leaf hover:text-leaf disabled:opacity-50"
+          className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-black/15 bg-cream/50 px-4 py-5 text-sm font-medium text-ink/60 transition-all duration-300 hover:-translate-y-0.5 hover:border-leaf hover:bg-leaf/5 hover:text-leaf disabled:opacity-50"
         >
           {uploading ? <Loader2 className="size-4 animate-spin" /> : <Camera className="size-4" />}
           {uploading ? "Uploading…" : `Add photos (${images.length}/5)`}

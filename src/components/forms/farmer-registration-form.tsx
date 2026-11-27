@@ -80,7 +80,7 @@ export function FarmerRegistrationForm() {
         </p>
         <button
           onClick={() => setResult(null)}
-          className="mt-5 text-sm font-semibold text-leaf hover:underline"
+          className="link-underline mt-6 pb-0.5 text-sm font-semibold text-leaf"
         >
           {t.f_registerAnother}
         </button>
@@ -200,16 +200,16 @@ export function FarmerRegistrationForm() {
         </Field>
       </div>
 
-      <label className="flex items-start gap-3 rounded-lg bg-cream p-4 text-sm text-ink/80">
+      <label className="flex items-start gap-3 cursor-pointer rounded-xl border border-black/5 bg-cream/70 p-4 text-sm text-ink/80 transition-colors hover:border-leaf/30 hover:bg-cream">
         <input
           type="checkbox"
           {...register("consent")}
-          className="mt-0.5 size-4 accent-brand"
+          className="mt-0.5 size-4 accent-leaf"
         />
         <span>{t.f_consent}</span>
       </label>
       {errors.consent && (
-        <p className="-mt-3 text-xs text-red-600">{errors.consent.message}</p>
+        <p className="animate-fade-up -mt-3 text-xs font-medium text-red-600">{errors.consent.message}</p>
       )}
 
       <SubmitButton pending={isSubmitting}>{t.f_submit}</SubmitButton>

@@ -69,7 +69,7 @@ export function BuyerRequirementForm() {
         </p>
         <button
           onClick={() => setResult(null)}
-          className="mt-5 text-sm font-semibold text-leaf hover:underline"
+          className="link-underline mt-6 pb-0.5 text-sm font-semibold text-leaf"
         >
           Post another requirement
         </button>
@@ -154,8 +154,8 @@ export function BuyerRequirementForm() {
         </Field>
       </div>
 
-      <label className="flex items-center gap-3 rounded-lg bg-cream p-4 text-sm text-ink/80">
-        <input type="checkbox" {...register("sampleRequired")} className="size-4 accent-brand" />
+      <label className="flex items-center gap-3 cursor-pointer rounded-xl border border-black/5 bg-cream/70 p-4 text-sm text-ink/80 transition-colors hover:border-leaf/30 hover:bg-cream">
+        <input type="checkbox" {...register("sampleRequired")} className="size-4 accent-leaf" />
         I would like a sample before confirming an order.
       </label>
 

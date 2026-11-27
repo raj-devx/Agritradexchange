@@ -25,6 +25,11 @@ import { Reveal } from "@/components/reveal";
 import { CATEGORIES } from "@/lib/commodities";
 import { CountUp } from "@/components/count-up";
 import { MandiTicker } from "@/components/mandi-ticker";
+import { Aurora } from "@/components/aurora";
+import { SplitText } from "@/components/split-text";
+import { Tilt } from "@/components/tilt";
+import { Magnetic } from "@/components/magnetic";
+import { SpotlightCard } from "@/components/spotlight-card";
 import { useSiteT } from "@/lib/use-t";
 import type { SiteDict } from "@/lib/i18n";
 
@@ -86,69 +91,55 @@ export function HomeContent() {
   return (
     <>
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden bg-brand text-cream">
+      <section className="grain relative overflow-hidden bg-brand text-cream">
+        <Aurora />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-60"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)",
-            backgroundSize: "46px 46px",
-            maskImage:
-              "radial-gradient(120% 80% at 70% 0%, #000 40%, transparent 100%)",
-          }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-32 -top-32 size-96 rounded-full bg-leaf/10 blur-3xl"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -bottom-20 -left-20 size-72 rounded-full bg-gold/8 blur-3xl"
+          className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent"
         />
 
-        <Container className="relative grid items-center gap-12 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:py-24">
+        <Container className="relative z-[1] grid items-center gap-14 pb-32 pt-16 lg:grid-cols-[1.05fr_0.95fr] lg:pb-40 lg:pt-24">
           <div>
-            <span className="inline-flex animate-fade-up items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-gold">
-              <span className="h-px w-6 bg-gold/60" /> {t.home_eyebrow}
+            <span className="glass inline-flex animate-fade-up items-center gap-2.5 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-gold">
+              <span className="live-dot size-1.5 rounded-full bg-gold" />
+              {t.home_eyebrow}
             </span>
-            <h1
-              className="mt-5 animate-fade-up text-[2.6rem] font-extrabold leading-[1.05] sm:text-5xl lg:text-[3.4rem]"
-              style={{ animationDelay: "70ms" }}
-            >
-              {t.home_title}{" "}
-              <span className="text-gold">{t.home_titleHighlight}</span>{" "}
-              {t.home_titleEnd}
+            <h1 className="mt-6 text-[2.7rem] leading-[1.04] text-white sm:text-6xl lg:text-[4.2rem]">
+              <SplitText text={t.home_title} delay={0.15} />{" "}
+              <span className="italic text-gold">
+                <SplitText text={t.home_titleHighlight} delay={0.45} />
+              </span>{" "}
+              <SplitText text={t.home_titleEnd} delay={0.65} />
             </h1>
             <p
-              className="mt-6 max-w-xl animate-fade-up text-lg leading-relaxed text-cream/75"
-              style={{ animationDelay: "140ms" }}
+              className="mt-7 max-w-xl animate-fade-up text-lg leading-relaxed text-cream/75"
+              style={{ animationDelay: "700ms" }}
             >
               {t.home_subtitle}
             </p>
             <div
-              className="mt-8 flex animate-fade-up flex-wrap gap-3"
-              style={{ animationDelay: "210ms" }}
+              className="mt-9 flex animate-fade-up flex-wrap gap-3"
+              style={{ animationDelay: "850ms" }}
             >
-              <ButtonLink href="/register/farmer" variant="gold" size="lg">
-                {t.home_ctaList} <ArrowRight className="size-4" />
-              </ButtonLink>
-              <ButtonLink
-                href="/buyers/post-requirement"
-                variant="outline"
-                size="lg"
-                className="border-white/25 text-white hover:bg-white/10"
-              >
-                {t.home_ctaSource}
-              </ButtonLink>
+              <Magnetic>
+                <ButtonLink href="/register/farmer" variant="gold" size="lg">
+                  {t.home_ctaList} <ArrowRight className="size-4" />
+                </ButtonLink>
+              </Magnetic>
+              <Magnetic>
+                <ButtonLink
+                  href="/buyers/post-requirement"
+                  variant="outline"
+                  size="lg"
+                  className="glass border-white/25 text-white hover:bg-white/10"
+                >
+                  {t.home_ctaSource}
+                </ButtonLink>
+              </Magnetic>
             </div>
             <ul
               className="mt-9 flex animate-fade-up flex-wrap items-center gap-x-7 gap-y-2.5 text-sm text-cream/70"
-              style={{ animationDelay: "280ms" }}
+              style={{ animationDelay: "1000ms" }}
             >
               <li className="flex items-center gap-2">
                 <BadgeCheck className="size-4 text-gold" /> {t.home_badgeFree}
@@ -167,12 +158,17 @@ export function HomeContent() {
           {/* Product mock */}
           <div className="relative lg:pl-6">
             <div
-              className="animate-fade-up rounded-2xl bg-white text-ink shadow-2xl shadow-black/30 ring-1 ring-black/5"
-              style={{ animationDelay: "180ms" }}
+              aria-hidden
+              className="absolute inset-x-8 -bottom-6 top-10 rounded-[2rem] bg-gold/20 blur-3xl"
+            />
+            <Tilt>
+            <div
+              className="animate-fade-up rounded-3xl bg-white text-ink shadow-[0_40px_80px_-20px_rgba(0,0,0,0.55)] ring-1 ring-white/40"
+              style={{ animationDelay: "400ms" }}
             >
               <div className="flex items-center justify-between border-b border-black/5 px-5 py-3.5">
                 <span className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-ink/50">
-                  <span className="size-2 animate-pulse rounded-full bg-leaf" />{" "}
+                  <span className="live-dot size-2 rounded-full bg-leaf" />{" "}
                   Live requirement
                 </span>
                 <span className="rounded-full bg-gold/20 px-2.5 py-0.5 text-xs font-semibold text-gold-600">
@@ -198,9 +194,11 @@ export function HomeContent() {
                 </div>
                 <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-black/10">
                   <div
-                    className="h-full animate-grow-x rounded-full bg-gradient-to-r from-leaf to-leaf-400"
-                    style={{ width: "65%" }}
-                  />
+                    className="animate-grow-x relative h-full overflow-hidden rounded-full bg-gradient-to-r from-leaf to-leaf-400"
+                    style={{ width: "65%", animationDelay: "1.1s" }}
+                  >
+                    <span className="animate-shimmer absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent" />
+                  </div>
                 </div>
                 <p className="mt-1 text-[11px] text-ink/40">
                   35 tonne remaining
@@ -229,10 +227,11 @@ export function HomeContent() {
                       qty: "5 t",
                       tone: "proposed",
                     },
-                  ].map((r) => (
+                  ].map((r, ri) => (
                     <div
                       key={r.id}
-                      className="flex items-center justify-between rounded-lg border border-black/5 bg-cream/60 px-3 py-2 transition-colors hover:bg-cream"
+                      style={{ animationDelay: `${1000 + ri * 140}ms` }}
+                      className="animate-fade-up flex items-center justify-between rounded-xl border border-black/5 bg-cream/60 px-3 py-2 transition-all hover:translate-x-1 hover:bg-cream hover:shadow-sm"
                     >
                       <div className="flex items-center gap-2.5">
                         <span className="flex size-7 items-center justify-center rounded-full bg-brand/10 text-[11px] font-bold text-brand">
@@ -266,7 +265,8 @@ export function HomeContent() {
                 </div>
               </div>
             </div>
-            <p className="mt-3 text-center text-xs text-cream/45">
+            </Tilt>
+            <p className="mt-4 text-center text-xs text-cream/45">
               Illustrative sourcing view — concept-stage, not live operations.
             </p>
           </div>
@@ -274,33 +274,34 @@ export function HomeContent() {
       </section>
 
       {/* ── Stats band ── */}
-      <section className="relative overflow-hidden border-b border-black/5 bg-gradient-to-br from-brand via-brand to-brand-600 py-12 text-cream">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-20"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 20% 50%, var(--color-leaf) 0%, transparent 50%), radial-gradient(circle at 80% 50%, var(--color-gold) 0%, transparent 50%)",
-          }}
-        />
-        <Container className="relative">
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {STAT_NUMS.map((s, i) => (
-              <div key={STAT_KEYS[i]} className="text-center">
-                <s.icon className="mx-auto mb-3 size-6 text-gold" />
-                <p className="font-display text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-                  <CountUp
-                    end={s.end}
-                    prefix={s.prefix}
-                    suffix={s.suffix}
-                  />
-                </p>
-                <p className="mt-1 text-sm text-cream/70">
-                  {t[STAT_KEYS[i]]}
-                </p>
+      <section className="relative z-10 -mt-20 pb-14">
+        <Container>
+          <Reveal>
+            <div className="gborder rounded-3xl bg-white p-2 shadow-[0_30px_70px_-25px_rgba(18,62,45,0.4)]">
+              <div className="grid divide-black/5 sm:grid-cols-2 sm:divide-x lg:grid-cols-4">
+                {STAT_NUMS.map((s, i) => (
+                  <div
+                    key={STAT_KEYS[i]}
+                    className="group px-6 py-8 text-center transition-colors hover:bg-cream/60 sm:first:rounded-l-2xl sm:last:rounded-r-2xl"
+                  >
+                    <span className="mx-auto mb-3 flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br from-gold/25 to-gold/5 text-gold-600 transition-transform duration-500 group-hover:-translate-y-1 group-hover:rotate-6">
+                      <s.icon className="size-6" />
+                    </span>
+                    <p className="text-gradient-brand font-display text-4xl font-extrabold tracking-tight sm:text-[2.6rem]">
+                      <CountUp
+                        end={s.end}
+                        prefix={s.prefix}
+                        suffix={s.suffix}
+                      />
+                    </p>
+                    <p className="mt-1.5 text-sm text-ink/60">
+                      {t[STAT_KEYS[i]]}
+                    </p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          </Reveal>
         </Container>
       </section>
 
@@ -308,28 +309,30 @@ export function HomeContent() {
       <MandiTicker />
 
       {/* ── Two sides, one network ── */}
-      <section className="bg-cream py-16">
-        <Container>
-          <div className="mx-auto mb-10 max-w-2xl text-center">
+      <section className="relative overflow-hidden bg-cream py-20">
+        <div aria-hidden className="bg-dots pointer-events-none absolute inset-0 opacity-60 [mask-image:radial-gradient(ellipse_at_center,#000_30%,transparent_75%)]" />
+        <Container className="relative">
+          <div className="mx-auto mb-12 max-w-2xl text-center">
             <div className="section-divider mx-auto mb-4" />
-            <h2 className="text-3xl font-bold text-brand">
+            <h2 className="text-3xl text-brand sm:text-4xl lg:text-[2.75rem]">
               {t.home_twoSidesTitle}
             </h2>
             <p className="mt-2 text-ink/70">{t.home_twoSidesSub}</p>
           </div>
-          <div className="grid gap-5 md:grid-cols-2">
-            <Link
+          <Reveal className="grid gap-6 md:grid-cols-2">
+            <SpotlightCard
               href="/for-farmers"
-              className="group relative overflow-hidden rounded-2xl border border-leaf/20 bg-white p-8 shadow-sm transition-all hover:border-leaf/40 hover:shadow-lg"
+              spot="rgba(55,132,81,0.14)"
+              className="group gborder block overflow-hidden rounded-3xl border border-leaf/15 bg-white p-9 shadow-[var(--shadow-soft)] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[var(--shadow-lift)]"
             >
               <div
                 aria-hidden
                 className="pointer-events-none absolute -right-8 -top-8 size-32 rounded-full bg-leaf/5 transition-transform duration-500 group-hover:scale-150"
               />
-              <span className="relative flex size-14 items-center justify-center rounded-2xl bg-leaf/10 text-leaf transition-transform duration-300 group-hover:scale-110">
+              <span className="relative flex size-16 items-center justify-center rounded-2xl bg-gradient-to-br from-leaf/20 to-leaf/5 text-leaf ring-1 ring-leaf/15 transition-all duration-500 group-hover:scale-110 group-hover:-rotate-6">
                 <Sprout className="size-7" />
               </span>
-              <h3 className="mt-5 font-display text-xl font-bold text-brand">
+              <h3 className="mt-6 font-display text-2xl font-bold text-brand">
                 {t.home_farmerCard}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-ink/70">
@@ -339,19 +342,20 @@ export function HomeContent() {
                 {t.home_farmerCardCta}{" "}
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
               </span>
-            </Link>
-            <Link
+            </SpotlightCard>
+            <SpotlightCard
               href="/for-buyers"
-              className="group relative overflow-hidden rounded-2xl border border-brand/15 bg-white p-8 shadow-sm transition-all hover:border-brand/30 hover:shadow-lg"
+              spot="rgba(233,198,90,0.2)"
+              className="group gborder block overflow-hidden rounded-3xl border border-brand/15 bg-white p-9 shadow-[var(--shadow-soft)] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[var(--shadow-lift)]"
             >
               <div
                 aria-hidden
                 className="pointer-events-none absolute -right-8 -top-8 size-32 rounded-full bg-brand/5 transition-transform duration-500 group-hover:scale-150"
               />
-              <span className="relative flex size-14 items-center justify-center rounded-2xl bg-brand/10 text-brand transition-transform duration-300 group-hover:scale-110">
+              <span className="relative flex size-16 items-center justify-center rounded-2xl bg-gradient-to-br from-brand/20 to-brand/5 text-brand ring-1 ring-brand/15 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
                 <Building2 className="size-7" />
               </span>
-              <h3 className="mt-5 font-display text-xl font-bold text-brand">
+              <h3 className="mt-6 font-display text-2xl font-bold text-brand">
                 {t.home_buyerCard}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-ink/70">
@@ -361,56 +365,58 @@ export function HomeContent() {
                 {t.home_buyerCardCta}{" "}
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
               </span>
-            </Link>
-          </div>
+            </SpotlightCard>
+          </Reveal>
         </Container>
       </section>
 
       {/* ── How it works ── */}
-      <section className="py-20">
+      <section className="py-24">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
-            <p className="text-sm font-semibold uppercase tracking-wider text-leaf">
+            <p className="ornament text-xs font-bold uppercase tracking-[0.2em] text-leaf">
               {t.hiw_eyebrow}
             </p>
-            <h2 className="mt-2 text-3xl font-bold text-brand">
+            <h2 className="mt-3 text-3xl text-brand sm:text-4xl lg:text-[2.75rem]">
               {t.home_howTitle}
             </h2>
             <p className="mt-3 text-ink/70">{t.home_howSub}</p>
           </div>
+          <div className="relative mt-14">
+            <div
+              aria-hidden
+              className="absolute left-[10%] right-[10%] top-[3.4rem] hidden h-px bg-gradient-to-r from-transparent via-gold to-transparent lg:block"
+            />
           <Reveal
             as="ol"
-            className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-5"
+            className="relative grid gap-6 sm:grid-cols-2 lg:grid-cols-5"
           >
             {STEP_KEYS.map(([titleK, textK], i) => {
               const Icon = STEP_ICONS[i];
               return (
-                <li
+                <SpotlightCard
+                  as="li"
                   key={titleK}
-                  className="group relative overflow-hidden rounded-2xl border border-black/5 bg-white p-6 shadow-sm transition-all hover:shadow-md"
+                  spot="rgba(55,132,81,0.12)"
+                  className="group overflow-hidden rounded-3xl border border-black/5 bg-white p-6 shadow-[var(--shadow-soft)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[var(--shadow-lift)]"
                 >
-                  <span className="absolute right-4 top-4 font-display text-3xl font-extrabold text-cream-dark">
+                  <span className="absolute right-4 top-3 font-serif text-5xl font-semibold italic text-cream-dark transition-colors duration-500 group-hover:text-gold/50">
                     0{i + 1}
                   </span>
                   <span
-                    className={`flex size-12 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 ${STEP_COLORS[i]}`}
+                    className={`flex size-14 items-center justify-center rounded-2xl ring-4 ring-white transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6 ${STEP_COLORS[i]}`}
                   >
                     <Icon className="size-6" />
                   </span>
-                  <h3 className="mt-4 font-display text-base font-bold text-brand">
+                  <h3 className="mt-5 font-display text-base font-bold text-brand">
                     {t[titleK]}
                   </h3>
                   <p className="mt-2 text-sm text-ink/70">{t[textK]}</p>
-                  {i < STEP_KEYS.length - 1 && (
-                    <div
-                      aria-hidden
-                      className="absolute -bottom-3 -right-3 size-16 rounded-full bg-cream/80 opacity-0 transition-opacity group-hover:opacity-100"
-                    />
-                  )}
-                </li>
+                </SpotlightCard>
               );
             })}
           </Reveal>
+          </div>
           <div className="mt-10 text-center">
             <ButtonLink href="/how-it-works" variant="ghost">
               {t.home_howCta} <ArrowRight className="size-4" />
@@ -420,20 +426,13 @@ export function HomeContent() {
       </section>
 
       {/* ── Why section ── */}
-      <section className="relative overflow-hidden bg-brand py-20 text-cream">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-10"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 30% 20%, var(--color-gold) 0%, transparent 60%)",
-          }}
-        />
-        <Container className="relative">
-          <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:items-center">
+      <section className="grain relative overflow-hidden bg-brand py-24 text-cream">
+        <Aurora />
+        <Container className="relative z-[1]">
+          <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:items-center">
             <div>
               <div className="mb-4 h-[3px] w-12 rounded bg-gold" />
-              <h2 className="text-3xl font-bold text-white">
+              <h2 className="text-3xl text-white sm:text-4xl lg:text-[2.75rem]">
                 {t.home_whyTitle}
               </h2>
               <p className="mt-4 text-cream/75">{t.home_whySub}</p>
@@ -451,16 +450,16 @@ export function HomeContent() {
               {WHY_KEYS.map(([titleK, textK], i) => {
                 const Icon = WHY_ICONS[i];
                 return (
-                  <div
+                  <SpotlightCard
                     key={titleK}
-                    className={`group rounded-2xl border-l-4 bg-white/10 p-6 backdrop-blur-sm transition-all hover:bg-white/15 ${WHY_ACCENTS[i]}`}
+                    className={`glass group rounded-3xl border-l-4 p-6 transition-all duration-500 hover:-translate-y-1.5 hover:bg-white/15 ${WHY_ACCENTS[i]}`}
                   >
-                    <Icon className="size-7 text-gold transition-transform duration-300 group-hover:scale-110" />
-                    <h3 className="mt-3 font-display font-bold text-white">
+                    <span className="flex size-12 items-center justify-center rounded-2xl bg-gold/15 ring-1 ring-gold/25 transition-all duration-500 group-hover:scale-110 group-hover:bg-gold/25"><Icon className="size-6 text-gold" /></span>
+                    <h3 className="mt-4 font-display text-lg font-bold text-white">
                       {t[titleK]}
                     </h3>
                     <p className="mt-1.5 text-sm text-cream/70">{t[textK]}</p>
-                  </div>
+                  </SpotlightCard>
                 );
               })}
             </Reveal>
@@ -469,14 +468,14 @@ export function HomeContent() {
       </section>
 
       {/* ── Commodities ── */}
-      <section className="py-20">
+      <section className="py-24">
         <Container>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-wider text-leaf">
+              <p className="ornament text-xs font-bold uppercase tracking-[0.2em] text-leaf">
                 {t.comm_eyebrow}
               </p>
-              <h2 className="mt-2 text-3xl font-bold text-brand">
+              <h2 className="mt-3 text-3xl text-brand sm:text-4xl lg:text-[2.75rem]">
                 {t.home_commTitle}
               </h2>
             </div>
@@ -486,13 +485,13 @@ export function HomeContent() {
           </div>
           <Reveal className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {CATEGORIES.map((c, i) => (
-              <Link
+              <SpotlightCard
                 key={c.key}
                 href="/commodities"
-                className={`group overflow-hidden rounded-2xl border bg-gradient-to-br p-6 shadow-sm transition-all hover:shadow-lg ${categoryTints[i % categoryTints.length]}`}
+                className={`group block overflow-hidden rounded-3xl border bg-gradient-to-br p-6 shadow-[var(--shadow-soft)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[var(--shadow-lift)] ${categoryTints[i % categoryTints.length]}`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-3xl transition-transform duration-300 group-hover:scale-125">
+                  <span className="flex size-14 items-center justify-center rounded-2xl bg-white/80 text-3xl shadow-sm ring-1 ring-black/5 transition-transform duration-500 group-hover:-rotate-12 group-hover:scale-110">
                     {c.emoji}
                   </span>
                   <span className="rounded-full bg-cream px-2.5 py-0.5 text-xs font-medium text-ink/50">
@@ -509,7 +508,7 @@ export function HomeContent() {
                   </p>
                   <ArrowRight className="size-4 text-ink/30 transition-all group-hover:translate-x-1 group-hover:text-ink/60" />
                 </div>
-              </Link>
+              </SpotlightCard>
             ))}
           </Reveal>
         </Container>
@@ -521,62 +520,57 @@ export function HomeContent() {
           <Reveal>
             <Link
               href="/requirements"
-              className="group flex items-center justify-between rounded-2xl border border-leaf/20 bg-leaf/5 px-6 py-5 transition-colors hover:border-leaf/40 hover:bg-leaf/10"
+              className="group gborder flex items-center justify-between gap-4 rounded-3xl bg-gradient-to-r from-leaf/10 via-white to-gold/10 px-7 py-6 transition-all duration-500 hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]"
             >
               <div>
-                <p className="font-display text-lg font-bold text-brand">
+                <p className="font-display text-lg font-bold text-brand sm:text-xl">
+                  <span className="live-dot mr-2.5 inline-block size-2 rounded-full bg-leaf align-middle" />
                   {t.req_browseReqs}
                 </p>
                 <p className="mt-0.5 text-sm text-ink/60">
                   {t.req_subtitle}
                 </p>
               </div>
-              <ArrowRight className="size-5 shrink-0 text-leaf transition-transform group-hover:translate-x-1" />
+              <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-leaf text-white transition-all duration-500 group-hover:translate-x-1 group-hover:bg-brand"><ArrowRight className="size-5" /></span>
             </Link>
           </Reveal>
         </Container>
       </section>
 
       {/* ── CTA ── */}
-      <section className="pb-6">
+      <section className="pb-10 pt-6">
         <Container>
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand via-brand to-brand-600 px-8 py-14 text-center text-cream">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -left-16 -top-16 size-64 rounded-full bg-leaf/15 blur-3xl"
-            />
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -bottom-16 -right-16 size-64 rounded-full bg-gold/10 blur-3xl"
-            />
-            <div className="relative">
+          <Reveal>
+            <div className="grain relative overflow-hidden rounded-[2rem] bg-brand px-8 py-20 text-center text-cream shadow-[0_40px_80px_-30px_rgba(18,62,45,0.7)]">
+            <Aurora />
+            <div className="relative z-[1]">
               <div className="section-divider mx-auto mb-6" />
-              <h2 className="mx-auto max-w-2xl text-3xl font-bold">
+              <h2 className="mx-auto max-w-3xl text-3xl text-white sm:text-4xl lg:text-5xl">
                 {t.home_ctaBandTitle}
               </h2>
               <p className="mx-auto mt-3 max-w-xl text-cream/80">
                 {t.home_ctaBandSub}
               </p>
               <div className="mt-8 flex flex-wrap justify-center gap-3">
-                <ButtonLink
-                  href="/register/farmer"
-                  variant="gold"
-                  size="lg"
-                  className="shadow-lg shadow-gold/20"
-                >
-                  {t.home_ctaFarmer}
-                </ButtonLink>
-                <ButtonLink
-                  href="/register/buyer"
-                  variant="outline"
-                  size="lg"
-                  className="border-white/30 text-white hover:bg-white/10"
-                >
-                  {t.home_ctaBuyer}
-                </ButtonLink>
+                <Magnetic>
+                  <ButtonLink href="/register/farmer" variant="gold" size="lg">
+                    {t.home_ctaFarmer}
+                  </ButtonLink>
+                </Magnetic>
+                <Magnetic>
+                  <ButtonLink
+                    href="/register/buyer"
+                    variant="outline"
+                    size="lg"
+                    className="glass border-white/30 text-white hover:bg-white/10"
+                  >
+                    {t.home_ctaBuyer}
+                  </ButtonLink>
+                </Magnetic>
               </div>
             </div>
-          </div>
+            </div>
+          </Reveal>
         </Container>
       </section>
     </>

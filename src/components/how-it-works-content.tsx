@@ -1,9 +1,13 @@
 "use client";
 
-import { ShieldCheck, ArrowRight } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import { Container } from "@/components/container";
 import { Reveal } from "@/components/reveal";
 import { ButtonLink } from "@/components/ui/button";
+import { PageHeader } from "@/components/page-header";
+import { Aurora } from "@/components/aurora";
+import { Magnetic } from "@/components/magnetic";
+import { SpotlightCard } from "@/components/spotlight-card";
 import { useSiteT } from "@/lib/use-t";
 import type { SiteDict } from "@/lib/i18n";
 
@@ -18,13 +22,13 @@ const WORKFLOW_KEYS: [keyof SiteDict, keyof SiteDict][] = [
 ];
 
 const WORKFLOW_COLORS = [
-  "bg-brand",
-  "bg-brand-500",
-  "bg-leaf",
-  "bg-leaf-600",
-  "bg-gold-600",
-  "bg-terracotta",
-  "bg-brand",
+  "from-brand-500 to-brand",
+  "from-brand-500 to-brand",
+  "from-leaf-400 to-leaf",
+  "from-leaf to-leaf-600",
+  "from-gold-400 to-gold-600",
+  "from-terracotta to-terracotta",
+  "from-brand-500 to-brand",
 ];
 
 const PRINCIPLE_KEYS: (keyof SiteDict)[] = [
@@ -49,114 +53,81 @@ export function HowItWorksContent() {
 
   return (
     <>
-      {/* Page header */}
-      <section className="relative overflow-hidden border-b border-black/5 bg-brand text-cream">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-15"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 80% 20%, var(--color-gold) 0%, transparent 50%), radial-gradient(circle at 20% 80%, var(--color-leaf) 0%, transparent 50%)",
-          }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent"
-        />
-        <Container className="relative py-14 sm:py-20">
-          <p className="mb-3 inline-flex animate-fade-up items-center gap-2 text-sm font-semibold uppercase tracking-wider text-gold">
-            <span className="h-px w-5 bg-gold/60" />
-            {t.hiw_eyebrow}
-          </p>
-          <h1
-            className="max-w-3xl animate-fade-up text-3xl font-extrabold text-white sm:text-4xl md:text-5xl"
-            style={{ animationDelay: "60ms" }}
-          >
-            {t.hiw_title}
-          </h1>
-          <p
-            className="mt-4 max-w-2xl animate-fade-up text-lg text-cream/75"
-            style={{ animationDelay: "120ms" }}
-          >
-            {t.hiw_subtitle}
-          </p>
-        </Container>
-      </section>
+      <PageHeader eyebrow={t.hiw_eyebrow} title={t.hiw_title} subtitle={t.hiw_subtitle} />
 
       {/* Timeline */}
-      <section className="py-16">
-        <Container className="max-w-3xl">
-          <Reveal
-            as="ol"
-            className="relative space-y-6 border-l-2 border-leaf/25 pl-8"
-          >
-            {workflow.map((w, i) => (
-              <li key={w.n} className="group relative">
-                <span
-                  className={`absolute -left-[41px] flex size-8 items-center justify-center rounded-full font-display text-sm font-bold text-white shadow-md transition-transform duration-300 group-hover:scale-110 ${w.color}`}
+      <section className="relative overflow-hidden py-24">
+        <div
+          aria-hidden
+          className="bg-dots pointer-events-none absolute inset-0 opacity-50 [mask-image:radial-gradient(ellipse_at_center,#000_20%,transparent_70%)]"
+        />
+        <Container className="relative max-w-3xl">
+          <div className="relative">
+            <div
+              aria-hidden
+              className="absolute bottom-6 left-6 top-6 w-px bg-gradient-to-b from-gold via-leaf/40 to-gold/0"
+            />
+            <Reveal as="ol" className="relative space-y-6">
+              {workflow.map((w) => (
+                <SpotlightCard
+                  as="li"
+                  key={w.n}
+                  spot="rgba(233,198,90,0.16)"
+                  className="group relative ml-0 rounded-3xl border border-black/5 bg-white py-5 pl-20 pr-6 shadow-[var(--shadow-soft)] transition-all duration-500 hover:translate-x-1.5 hover:shadow-[var(--shadow-lift)]"
                 >
-                  {w.n}
-                </span>
-                <div className="rounded-xl border border-transparent p-3 transition-all group-hover:border-black/5 group-hover:bg-cream/50">
+                  <span
+                    className={`absolute left-0 top-1/2 flex size-12 -translate-y-1/2 items-center justify-center rounded-full bg-gradient-to-br font-serif text-xl font-semibold italic text-white shadow-lg ring-4 ring-white transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6 ${w.color}`}
+                    style={{ left: "0.5rem" }}
+                  >
+                    {w.n}
+                  </span>
                   <h3 className="font-display text-lg font-bold text-brand">
                     {w.title}
                   </h3>
-                  <p className="mt-1 text-sm text-ink/70">{w.text}</p>
-                </div>
-                {i < workflow.length - 1 && (
-                  <div
-                    aria-hidden
-                    className="absolute -left-[33px] top-10 h-full w-0.5 bg-gradient-to-b from-leaf/20 to-transparent"
-                  />
-                )}
-              </li>
-            ))}
-          </Reveal>
+                  <p className="mt-1 text-sm leading-relaxed text-ink/70">{w.text}</p>
+                </SpotlightCard>
+              ))}
+            </Reveal>
+          </div>
         </Container>
       </section>
 
       {/* Principles */}
-      <section className="relative overflow-hidden bg-brand py-16 text-cream">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-10"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 70% 30%, var(--color-gold) 0%, transparent 50%)",
-          }}
-        />
-        <Container className="relative max-w-3xl">
-          <div className="flex items-center gap-3">
-            <ShieldCheck className="size-7 text-gold" />
-            <h2 className="text-2xl font-bold text-white">
-              {t.hiw_rulesTitle}
-            </h2>
+      <section className="grain relative overflow-hidden bg-brand py-24 text-cream">
+        <Aurora />
+        <Container className="relative z-[1] max-w-3xl">
+          <div className="flex items-center gap-4">
+            <span className="flex size-12 items-center justify-center rounded-2xl bg-gold/15 ring-1 ring-gold/25">
+              <ShieldCheck className="size-6 text-gold" />
+            </span>
+            <h2 className="text-3xl text-white sm:text-4xl">{t.hiw_rulesTitle}</h2>
           </div>
-          <Reveal as="ul" className="mt-6 space-y-3">
+          <Reveal as="ul" className="mt-8 space-y-3">
             {principles.map((p) => (
-              <li
+              <SpotlightCard
+                as="li"
                 key={p}
-                className="rounded-xl bg-white/10 px-5 py-4 text-sm text-cream/90 backdrop-blur-sm transition-all hover:bg-white/15"
+                className="glass rounded-2xl px-5 py-4 text-sm text-cream/90 transition-all duration-500 hover:translate-x-1.5 hover:bg-white/15"
               >
                 {p}
-              </li>
+              </SpotlightCard>
             ))}
           </Reveal>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <ButtonLink
-              href="/register/farmer"
-              variant="gold"
-              className="shadow-lg shadow-gold/20"
-            >
-              {t.hiw_regProduce}
-            </ButtonLink>
-            <ButtonLink
-              href="/buyers/post-requirement"
-              variant="outline"
-              className="border-white/30 text-white hover:bg-white/10"
-            >
-              {t.fb_postReq}
-            </ButtonLink>
+          <div className="mt-10 flex flex-wrap gap-3">
+            <Magnetic>
+              <ButtonLink href="/register/farmer" variant="gold">
+                {t.hiw_regProduce}
+              </ButtonLink>
+            </Magnetic>
+            <Magnetic>
+              <ButtonLink
+                href="/buyers/post-requirement"
+                variant="outline"
+                className="glass border-white/30 text-white hover:bg-white/10"
+              >
+                {t.fb_postReq}
+              </ButtonLink>
+            </Magnetic>
           </div>
         </Container>
       </section>

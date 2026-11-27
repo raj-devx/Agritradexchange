@@ -10,10 +10,10 @@ export function LoginPlaceholder({
   registerHref: string;
 }) {
   return (
-    <section className="py-20">
+    <section className="relative overflow-hidden bg-cream py-20">
       <Container className="max-w-md">
-        <div className="rounded-2xl border border-black/10 bg-white p-8 text-center shadow-sm">
-          <span className="mx-auto flex size-12 items-center justify-center rounded-xl bg-cream text-leaf">
+        <div className="gborder animate-fade-up rounded-3xl border border-black/5 bg-white p-8 text-center shadow-[var(--shadow-lift)]">
+          <span className="live-dot mx-auto flex size-14 items-center justify-center rounded-2xl bg-leaf/10 text-leaf ring-1 ring-leaf/20">
             <Lock className="size-6" />
           </span>
           <h1 className="mt-5 font-display text-2xl font-bold text-brand">
