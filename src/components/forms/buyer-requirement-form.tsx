@@ -60,6 +60,7 @@ export function BuyerRequirementForm() {
       <SuccessPanel
         title="Requirement submitted"
         reference={result.requirementNo}
+        shareText="Looking for quality agricultural commodities? AgriTradeXchange connects buyers with verified farmer supply — post your requirement for free: https://agritradexchange.com/buyers/post-requirement"
       >
         <p>
           Our procurement team will validate your requirement and begin matching

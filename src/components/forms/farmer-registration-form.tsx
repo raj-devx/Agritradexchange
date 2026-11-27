@@ -67,8 +67,13 @@ export function FarmerRegistrationForm() {
   }
 
   if (result) {
+    const shareMsg = `I just registered my produce on AgriTradeXchange — free registration, quality inspection, and direct buyer access! No mandi fees. Register yours too: https://agritradexchange.com/register/farmer`;
     return (
-      <SuccessPanel title={t.f_successTitle} reference={result.registrationNo}>
+      <SuccessPanel
+        title={t.f_successTitle}
+        reference={result.registrationNo}
+        shareText={shareMsg}
+      >
         <p>{t.f_successBody}</p>
         <p className="mt-3 text-xs text-ink/50">
           {t.f_statusLabel}: <strong>{t.pipeline[0]}</strong>

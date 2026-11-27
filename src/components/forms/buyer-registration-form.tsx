@@ -58,6 +58,7 @@ export function BuyerRegistrationForm() {
         title="Buyer account submitted"
         reference={result.buyerNo}
         referenceLabel="Buyer ID"
+        shareText="I just registered as a buyer on AgriTradeXchange — direct access to quality-inspected agricultural produce from verified farmers. Check it out: https://agritradexchange.com/register/buyer"
       >
         <p>
           Our procurement team will review and verify your account. Once verified,

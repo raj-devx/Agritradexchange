@@ -1,8 +1,10 @@
 import { connection } from "next/server";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { FARMER_STATUS_PIPELINE } from "@/lib/status";
 import { updateFarmerStatus } from "@/app/admin/actions";
 import { StatusSelect } from "@/components/admin/status-select";
+import { AdminSearchFilter } from "@/components/admin/search-filter";
 import {
   AdminPageTitle,
   TableWrap,
@@ -15,9 +17,33 @@ import {
 
 export const instant = false;
 
-export default async function AdminFarmersPage() {
+export default async function AdminFarmersPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string; status?: string }>;
+}) {
   await connection();
+  const { q, status } = await searchParams;
+
+  const where: Prisma.FarmerRegistrationWhereInput = {};
+
+  if (q) {
+    where.OR = [
+      { fullName: { contains: q, mode: "insensitive" } },
+      { mobile: { contains: q, mode: "insensitive" } },
+      { cropName: { contains: q, mode: "insensitive" } },
+      { registrationNo: { contains: q, mode: "insensitive" } },
+      { village: { contains: q, mode: "insensitive" } },
+      { district: { contains: q, mode: "insensitive" } },
+    ];
+  }
+
+  if (status) {
+    where.status = status;
+  }
+
   const farmers = await prisma.farmerRegistration.findMany({
+    where,
     orderBy: { createdAt: "desc" },
     include: { inspection: true },
   });
@@ -30,10 +56,15 @@ export default async function AdminFarmersPage() {
         count={farmers.length}
       />
 
+      <AdminSearchFilter
+        statuses={FARMER_STATUS_PIPELINE}
+        searchPlaceholder="Search by name, mobile, crop, village…"
+      />
+
       {farmers.length === 0 ? (
         <EmptyState
           title="No produce registered yet"
-          hint="Submissions from the public “Register Your Produce” form will appear here."
+          hint="Submissions from the public &ldquo;Register Your Produce&rdquo; form will appear here."
         />
       ) : (
         <TableWrap>

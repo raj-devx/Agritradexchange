@@ -1,9 +1,11 @@
 import { connection } from "next/server";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { BUYER_STATUSES } from "@/lib/status";
 import { CATEGORIES } from "@/lib/commodities";
 import { updateBuyerStatus } from "@/app/admin/actions";
 import { StatusSelect } from "@/components/admin/status-select";
+import { AdminSearchFilter } from "@/components/admin/search-filter";
 import {
   AdminPageTitle,
   TableWrap,
@@ -18,9 +20,32 @@ const CATEGORY_LABEL = new Map(CATEGORIES.map((c) => [c.key, c.label]));
 
 export const instant = false;
 
-export default async function AdminBuyersPage() {
+export default async function AdminBuyersPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string; status?: string }>;
+}) {
   await connection();
+  const { q, status } = await searchParams;
+
+  const where: Prisma.BuyerRegistrationWhereInput = {};
+
+  if (q) {
+    where.OR = [
+      { companyName: { contains: q, mode: "insensitive" } },
+      { contactPerson: { contains: q, mode: "insensitive" } },
+      { mobile: { contains: q, mode: "insensitive" } },
+      { email: { contains: q, mode: "insensitive" } },
+      { buyerNo: { contains: q, mode: "insensitive" } },
+    ];
+  }
+
+  if (status) {
+    where.status = status;
+  }
+
   const buyers = await prisma.buyerRegistration.findMany({
+    where,
     orderBy: { createdAt: "desc" },
   });
 
@@ -30,6 +55,11 @@ export default async function AdminBuyersPage() {
         title="Buyers"
         description="Registered buyer accounts. Verify credible buyers before matching supply."
         count={buyers.length}
+      />
+
+      <AdminSearchFilter
+        statuses={BUYER_STATUSES}
+        searchPlaceholder="Search by company, contact, mobile, email…"
       />
 
       {buyers.length === 0 ? (

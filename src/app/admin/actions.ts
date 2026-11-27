@@ -16,6 +16,11 @@ import {
   BUYER_STATUSES,
   REQUIREMENT_STATUSES,
 } from "@/lib/status";
+import {
+  notifyFarmerStatusChange,
+  notifyBuyerStatusChange,
+  notifyRequirementStatusChange,
+} from "@/lib/notifications";
 
 export async function login(formData: FormData) {
   const password = String(formData.get("password") ?? "");
@@ -46,7 +51,8 @@ async function assertAuthed() {
 export async function updateFarmerStatus(id: string, status: string) {
   await assertAuthed();
   if (!FARMER_STATUS_PIPELINE.includes(status as never)) return;
-  await prisma.farmerRegistration.update({ where: { id }, data: { status } });
+  const farmer = await prisma.farmerRegistration.update({ where: { id }, data: { status } });
+  notifyFarmerStatusChange(farmer.mobile, farmer.registrationNo, status);
   revalidatePath("/admin/farmers");
   revalidatePath("/admin");
 }
@@ -54,7 +60,8 @@ export async function updateFarmerStatus(id: string, status: string) {
 export async function updateBuyerStatus(id: string, status: string) {
   await assertAuthed();
   if (!BUYER_STATUSES.includes(status as never)) return;
-  await prisma.buyerRegistration.update({ where: { id }, data: { status } });
+  const buyer = await prisma.buyerRegistration.update({ where: { id }, data: { status } });
+  notifyBuyerStatusChange(buyer.mobile, buyer.buyerNo, status);
   revalidatePath("/admin/buyers");
   revalidatePath("/admin");
 }
@@ -62,7 +69,8 @@ export async function updateBuyerStatus(id: string, status: string) {
 export async function updateRequirementStatus(id: string, status: string) {
   await assertAuthed();
   if (!REQUIREMENT_STATUSES.includes(status as never)) return;
-  await prisma.buyerRequirement.update({ where: { id }, data: { status } });
+  const req = await prisma.buyerRequirement.update({ where: { id }, data: { status } });
+  notifyRequirementStatusChange(req.mobile, req.requirementNo, status);
   revalidatePath("/admin/requirements");
   revalidatePath("/admin");
 }

@@ -1,8 +1,10 @@
 import { connection } from "next/server";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { REQUIREMENT_STATUSES } from "@/lib/status";
 import { updateRequirementStatus } from "@/app/admin/actions";
 import { StatusSelect } from "@/components/admin/status-select";
+import { AdminSearchFilter } from "@/components/admin/search-filter";
 import {
   AdminPageTitle,
   TableWrap,
@@ -15,9 +17,32 @@ import {
 
 export const instant = false;
 
-export default async function AdminRequirementsPage() {
+export default async function AdminRequirementsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string; status?: string }>;
+}) {
   await connection();
+  const { q, status } = await searchParams;
+
+  const where: Prisma.BuyerRequirementWhereInput = {};
+
+  if (q) {
+    where.OR = [
+      { companyName: { contains: q, mode: "insensitive" } },
+      { contactPerson: { contains: q, mode: "insensitive" } },
+      { commodity: { contains: q, mode: "insensitive" } },
+      { requirementNo: { contains: q, mode: "insensitive" } },
+      { deliveryLocation: { contains: q, mode: "insensitive" } },
+    ];
+  }
+
+  if (status) {
+    where.status = status;
+  }
+
   const requirements = await prisma.buyerRequirement.findMany({
+    where,
     orderBy: { createdAt: "desc" },
   });
 
@@ -29,10 +54,15 @@ export default async function AdminRequirementsPage() {
         count={requirements.length}
       />
 
+      <AdminSearchFilter
+        statuses={REQUIREMENT_STATUSES}
+        searchPlaceholder="Search by company, commodity, location…"
+      />
+
       {requirements.length === 0 ? (
         <EmptyState
           title="No requirements yet"
-          hint="Submissions from the “Post Buying Requirement” form will appear here."
+          hint="Submissions from the &ldquo;Post Buying Requirement&rdquo; form will appear here."
         />
       ) : (
         <TableWrap>
