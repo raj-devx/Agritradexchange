@@ -1,7 +1,5 @@
--- Add images and GPS columns to Inspection
+-- Add images column to Inspection
 ALTER TABLE "Inspection" ADD COLUMN "images" TEXT;
-ALTER TABLE "Inspection" ADD COLUMN "latitude" DOUBLE PRECISION;
-ALTER TABLE "Inspection" ADD COLUMN "longitude" DOUBLE PRECISION;
 
 -- CreateTable
 CREATE TABLE "Otp" (
