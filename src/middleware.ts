@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// Edge-runtime SHA-256 (Node's crypto isn't available in middleware).
 async function sha256Hex(input: string): Promise<string> {
   const data = new TextEncoder().encode(input);
   const digest = await crypto.subtle.digest("SHA-256", data);
@@ -10,48 +9,78 @@ async function sha256Hex(input: string): Promise<string> {
     .join("");
 }
 
-// Each gated area has its own cookie, password and token salt. Salts must match
-// the server-side token helpers (admin-auth: "atx", agent-auth: "atxa").
-const AREAS = [
+// Password-gated areas (admin + agent).
+const PW_AREAS = [
   { prefix: "/admin", loginPath: "/admin/login", cookie: "atx_admin", salt: "atx", envKey: "ADMIN_PASSWORD" },
   { prefix: "/agent", loginPath: "/agent/login", cookie: "atx_agent", salt: "atxa", envKey: "AGENT_PASSWORD" },
 ] as const;
 
+// Cookie-gated areas (farmer + buyer dashboards — OTP session).
+const COOKIE_AREAS = [
+  { prefix: "/farmer/dashboard", loginPath: "/farmer/login", cookie: "atx_farmer", rolePrefix: "farmer:" },
+  { prefix: "/buyer/dashboard", loginPath: "/buyer/login", cookie: "atx_buyer", rolePrefix: "buyer:" },
+] as const;
+
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  const area = AREAS.find(
+
+  // --- Password-gated areas (admin / agent) ---
+  const pwArea = PW_AREAS.find(
     (a) => pathname === a.prefix || pathname.startsWith(`${a.prefix}/`),
   );
-  if (!area) return NextResponse.next();
+  if (pwArea) {
+    const password = process.env[pwArea.envKey] ?? "";
+    const expected = password ? await sha256Hex(`${pwArea.salt}:${password}`) : null;
+    const cookie = req.cookies.get(pwArea.cookie)?.value;
+    const authed = !!expected && cookie === expected;
 
-  const password = process.env[area.envKey] ?? "";
-  const expected = password ? await sha256Hex(`${area.salt}:${password}`) : null;
-  const cookie = req.cookies.get(area.cookie)?.value;
-  const authed = !!expected && cookie === expected;
+    if (pathname === pwArea.loginPath) {
+      if (authed) {
+        const url = req.nextUrl.clone();
+        url.pathname = pwArea.prefix;
+        url.search = "";
+        return NextResponse.redirect(url);
+      }
+      return NextResponse.next();
+    }
 
-  // The login page is always reachable; bounce already-authed users inward.
-  if (pathname === area.loginPath) {
-    if (authed) {
+    if (!authed) {
       const url = req.nextUrl.clone();
-      url.pathname = area.prefix;
+      url.pathname = pwArea.loginPath;
       url.search = "";
       return NextResponse.redirect(url);
     }
     return NextResponse.next();
   }
 
-  // Everything else in the area needs a valid session — blocked BEFORE any
-  // page renders, so no protected data is ever streamed to the client.
-  if (!authed) {
-    const url = req.nextUrl.clone();
-    url.pathname = area.loginPath;
-    url.search = "";
-    return NextResponse.redirect(url);
+  // --- OTP cookie-gated areas (farmer / buyer dashboards) ---
+  const ckArea = COOKIE_AREAS.find(
+    (a) => pathname === a.prefix || pathname.startsWith(`${a.prefix}/`),
+  );
+  if (ckArea) {
+    const cookie = req.cookies.get(ckArea.cookie)?.value;
+    const valid = !!cookie && cookie.startsWith(ckArea.rolePrefix);
+    if (!valid) {
+      const url = req.nextUrl.clone();
+      url.pathname = ckArea.loginPath;
+      url.search = "";
+      return NextResponse.redirect(url);
+    }
+    return NextResponse.next();
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/admin", "/admin/:path*", "/agent", "/agent/:path*"],
+  matcher: [
+    "/admin",
+    "/admin/:path*",
+    "/agent",
+    "/agent/:path*",
+    "/farmer/dashboard",
+    "/farmer/dashboard/:path*",
+    "/buyer/dashboard",
+    "/buyer/dashboard/:path*",
+  ],
 };

@@ -2,8 +2,14 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { farmerSchema } from "@/lib/validation";
 import { makeRef } from "@/lib/ref";
+import { rateLimit } from "@/lib/rate-limit";
+
+const limiter = rateLimit({ name: "farmer-reg", max: 5 });
 
 export async function POST(req: Request) {
+  const limited = await limiter();
+  if (limited) return limited;
+
   let body: unknown;
   try {
     body = await req.json();

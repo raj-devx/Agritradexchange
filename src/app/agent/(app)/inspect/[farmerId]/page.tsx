@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { recordInspection } from "@/app/agent/actions";
 import { QUALITY_GRADES } from "@/lib/status";
 import { UNITS } from "@/lib/validation";
+import { ImageUpload } from "@/components/image-upload";
 
 export const instant = false;
 
@@ -169,6 +170,14 @@ export default async function InspectPage({
             className={control}
           />
         </label>
+
+        <div>
+          <p className="mb-1.5 text-sm font-medium text-ink">Produce photos</p>
+          <ImageUpload
+            name="images"
+            existingImages={prev?.images ? JSON.parse(prev.images) : []}
+          />
+        </div>
 
         <label className="flex items-start gap-3 rounded-lg bg-white p-3 text-sm text-ink/80 ring-1 ring-black/5">
           <input

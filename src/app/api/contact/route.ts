@@ -1,8 +1,14 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { contactSchema } from "@/lib/validation";
+import { rateLimit } from "@/lib/rate-limit";
+
+const limiter = rateLimit({ name: "contact", max: 10 });
 
 export async function POST(req: Request) {
+  const limited = await limiter();
+  if (limited) return limited;
+
   let body: unknown;
   try {
     body = await req.json();

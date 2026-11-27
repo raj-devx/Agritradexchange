@@ -52,6 +52,7 @@ model Inspection {
   notes       String?
   visitDate   String
   farmerAck   Boolean            @default(false)
+  images      String?  // JSON array of image URLs
   createdAt   DateTime           @default(now())
 }
 
@@ -123,4 +124,17 @@ model ContactMessage {
   audience  String? // Farmer | Buyer | Other
   message   String
   createdAt DateTime @default(now())
+}
+
+/// SMS OTP for farmer / buyer login.
+model Otp {
+  id        String   @id @default(cuid())
+  mobile    String
+  code      String
+  role      String   // farmer | buyer
+  attempts  Int      @default(0)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([mobile, role])
 }

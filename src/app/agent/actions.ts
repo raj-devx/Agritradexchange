@@ -50,6 +50,12 @@ export async function recordInspection(formData: FormData) {
   const notes = String(formData.get("notes") ?? "").trim();
   const visitDate = String(formData.get("visitDate") ?? "").trim();
   const farmerAck = formData.get("farmerAck") === "on";
+  const imagesRaw = String(formData.get("images") ?? "[]");
+  let images: string | null = null;
+  try {
+    const arr = JSON.parse(imagesRaw);
+    if (Array.isArray(arr) && arr.length > 0) images = JSON.stringify(arr);
+  } catch { /* ignore */ }
 
   if (
     !farmerId ||
@@ -72,6 +78,7 @@ export async function recordInspection(formData: FormData) {
     notes: notes || null,
     visitDate: visitDate || new Date().toISOString().slice(0, 10),
     farmerAck,
+    images,
   };
 
   await prisma.inspection.upsert({
