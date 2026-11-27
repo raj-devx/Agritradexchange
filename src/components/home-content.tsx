@@ -278,16 +278,16 @@ export function HomeContent() {
         <Container>
           <Reveal>
             <div className="gborder rounded-3xl bg-white p-2 shadow-[0_30px_70px_-25px_rgba(18,62,45,0.4)]">
-              <div className="grid divide-black/5 sm:grid-cols-2 sm:divide-x lg:grid-cols-4">
+              <div className="grid grid-cols-2 divide-black/5 lg:grid-cols-4 lg:divide-x">
                 {STAT_NUMS.map((s, i) => (
                   <div
                     key={STAT_KEYS[i]}
-                    className="group px-6 py-8 text-center transition-colors hover:bg-cream/60 sm:first:rounded-l-2xl sm:last:rounded-r-2xl"
+                    className="group rounded-2xl px-3 py-6 text-center transition-colors hover:bg-cream/60 sm:px-6 sm:py-8"
                   >
                     <span className="mx-auto mb-3 flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br from-gold/25 to-gold/5 text-gold-600 transition-transform duration-500 group-hover:-translate-y-1 group-hover:rotate-6">
                       <s.icon className="size-6" />
                     </span>
-                    <p className="text-gradient-brand font-display text-4xl font-extrabold tracking-tight sm:text-[2.6rem]">
+                    <p className="text-gradient-brand font-display text-3xl font-extrabold tracking-tight sm:text-[2.6rem]">
                       <CountUp
                         end={s.end}
                         prefix={s.prefix}
